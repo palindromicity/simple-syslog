@@ -235,12 +235,18 @@ public class Syslog5424Listener extends Rfc5424BaseListener implements MessageMa
 
   @Override
   public void exitMsg_any(Rfc5424Parser.Msg_anyContext ctx) {
-    msgMap.put(keyProvider.getMessage(), ctx.getText().trim());
+    final String msg = ctx.getText();
+    if (msg != null && !msg.isEmpty()) {
+      msgMap.put(keyProvider.getMessage(), msg.trim());
+    }
   }
 
   @Override
   public void exitMsg_utf8(Rfc5424Parser.Msg_utf8Context ctx) {
-    msgMap.put(keyProvider.getMessage(), ctx.getText().trim());
+    final String msg = ctx.getText();
+    if (msg != null && !msg.isEmpty()) {
+      msgMap.put(keyProvider.getMessage(), msg.trim());
+    }
   }
 
   private void handleNil(Supplier<String> supplier) {

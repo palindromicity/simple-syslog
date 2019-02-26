@@ -37,7 +37,7 @@ grammar Rfc5424;
 
 }
 
- syslog_msg      : header sp structured_data (msg)? #syslogMsg;
+ syslog_msg      : header sp structured_data (sp)? (msg)? #syslogMsg;
 
  header          : pri? version? sp? timestamp sp hostname sp app_name sp procid sp msgid #syslogHeader;
 
@@ -96,7 +96,7 @@ grammar Rfc5424;
 
 
  structured_data : nilvalue
- | (LEFT_BRACE sd_element RIGHT_BRACE sp)+
+ | LEFT_BRACE sd_element RIGHT_BRACE (sp LEFT_BRACE sd_element RIGHT_BRACE)*
  ;
 
  sd_element      : sd_id (sp sd_param)* #sdElement;
