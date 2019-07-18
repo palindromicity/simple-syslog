@@ -128,22 +128,22 @@ The specifications supported by the library.  `RFC_5424` and `RFC_3164`.
 
 ##### AllowableDeviations
 
-Allowable deviations from the RFC 5424 specification.  This allows for fields required by the specification, but perhaps
+Allowable deviations from the specifications.  This allows for fields required by the specification, but perhaps
 omitted by convention to be missing, and a line that is by specificiation technically incorrect to still parse.
 
-This is specificed by an {@code EnumSet}
+This is specified by an {@code EnumSet}
 
 ```java
 /**
-   * Properly formed RFC 5424 Syslog.
+   * Properly formed Syslog.
    */
   NONE,
   /**
-   * RFC 5424 Syslog that does not have PRIORITY.
+   * Syslog that does not have PRIORITY.
    */
   PRIORITY,
   /**
-   * RFC 5424 Syslog that does not have VERSION.
+   * Syslog that does not have VERSION.
    */
   VERSION
 ```
@@ -249,7 +249,7 @@ For example you would build a 'parser' that used your implementations, most like
 <dependency>
   <groupId>com.github.palindromicity</groupId>
   <artifactId>simple-syslog</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.3</version>
   <type>pom</type>
 </dependency>
 ```
