@@ -96,7 +96,7 @@ grammar Rfc5424;
 
 
  structured_data : nilvalue
- | LEFT_BRACE sd_element RIGHT_BRACE (sp LEFT_BRACE sd_element RIGHT_BRACE)*
+ | LEFT_BRACE sd_element RIGHT_BRACE (LEFT_BRACE sd_element RIGHT_BRACE)*
  ;
 
  sd_element      : sd_id (sp sd_param)* #sdElement;
