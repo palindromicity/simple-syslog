@@ -234,7 +234,7 @@ For example you would build a 'parser' that used your implementations, most like
 <repositories>
   <repository>
     <id>bintray</id>
-    <url>http://dl.bintray.com/palndromicity/simple-syslog</url>
+    <url>http://dl.bintray.com/palindromicity/simple-syslog</url>
     <releases>
       <enabled>true</enabled>
     </releases>
