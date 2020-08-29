@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,21 @@
 
 package com.github.palindromicity.syslog.dsl;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.github.palindromicity.syslog.AllowableDeviations;
 import com.github.palindromicity.syslog.KeyProvider;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164BaseListener;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164Parser;
 import com.github.palindromicity.syslog.util.Validate;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Simple implementation of {@link Rfc3164BaseListener}.
  * <p>
- * The {@code Syslog5424Listener} uses the provided {@link KeyProvider} when inserting items into the map.
+ * The {@code Syslog5424Listener} uses the provided {@link KeyProvider} when inserting items into
+ * the map.
  * </p>
  */
 public class Syslog3164Listener extends Rfc3164BaseListener implements MessageMapProvider {
@@ -54,7 +54,7 @@ public class Syslog3164Listener extends Rfc3164BaseListener implements MessageMa
    * Create a new {@code Syslog5424Listener}.
    *
    * @param keyProvider {@link KeyProvider} used for map insertion.
-   * @param deviations {@link AllowableDeviations} for parsing
+   * @param deviations  {@link AllowableDeviations} for parsing
    */
   public Syslog3164Listener(KeyProvider keyProvider, EnumSet<AllowableDeviations> deviations) {
     Validate.notNull(keyProvider, "keyProvider");
@@ -70,7 +70,8 @@ public class Syslog3164Listener extends Rfc3164BaseListener implements MessageMa
    */
   @Override
   public Map<String, Object> getMessageMap() {
-    if (msgMap.get(keyProvider.getHeaderPriority()) == null && !deviations.contains(AllowableDeviations.PRIORITY)) {
+    if (msgMap.get(keyProvider.getHeaderPriority()) == null && !deviations
+        .contains(AllowableDeviations.PRIORITY)) {
       throw new ParseException("Priority missing with strict parsing");
     }
     return Collections.unmodifiableMap(msgMap);
@@ -95,15 +96,15 @@ public class Syslog3164Listener extends Rfc3164BaseListener implements MessageMa
 
   @Override
   public void exitHeaderTimeStamp(Rfc3164Parser.HeaderTimeStampContext ctx) {
-    msgMap.put(keyProvider.getHeaderTimeStamp(), ctx.full_date().getText()
-        + "T" + ctx.full_time().getText());
+    msgMap.put(keyProvider.getHeaderTimeStamp(),
+        ctx.full_date().getText() + "T" + ctx.full_time().getText());
   }
 
   @Override
   public void exitHeaderTimeStamp3164(Rfc3164Parser.HeaderTimeStamp3164Context ctx) {
-    msgMap.put(keyProvider.getHeaderTimeStamp(), String.format("%s%s %s",ctx.date_month_short().getText(),
-        ctx.date_day_short().getText(),
-        ctx.partial_time().getText()));
+    msgMap.put(keyProvider.getHeaderTimeStamp(), String
+        .format("%s%s %s", ctx.date_month_short().getText(), ctx.date_day_short().getText(),
+            ctx.partial_time().getText()));
   }
 
   @Override

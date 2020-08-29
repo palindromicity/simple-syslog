@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,6 @@
 
 package com.github.palindromicity.syslog.dsl;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
-
 import com.github.palindromicity.syslog.AllowableDeviations;
 import com.github.palindromicity.syslog.KeyProvider;
 import com.github.palindromicity.syslog.NilPolicy;
@@ -30,15 +24,22 @@ import com.github.palindromicity.syslog.dsl.generated.Rfc5424BaseListener;
 import com.github.palindromicity.syslog.dsl.generated.Rfc5424Listener;
 import com.github.palindromicity.syslog.dsl.generated.Rfc5424Parser;
 import com.github.palindromicity.syslog.util.Validate;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Simple implementation of {@link Rfc5424Listener}.
  * <p>
- * {@code Syslog5424Listener} populates a {@code Map} with the values parsed from a valid RFC 5424 syslog line.
+ * {@code Syslog5424Listener} populates a {@code Map} with the values parsed from a valid RFC 5424
+ * syslog line.
  * Nil ('-') values are handled according the {@link NilPolicy}.
  * </p>
  * <p>
- * The {@code Syslog5424Listener} uses the provided {@link KeyProvider} when inserting items into the map.
+ * The {@code Syslog5424Listener} uses the provided {@link KeyProvider} when inserting items into
+ * the map.
  * </p>
  */
 public class Syslog5424Listener extends Rfc5424BaseListener implements MessageMapProvider {
@@ -82,24 +83,28 @@ public class Syslog5424Listener extends Rfc5424BaseListener implements MessageMa
   /**
    * Create a new {@code Syslog5424Listener}.
    *
-   * @param keyProvider {@link KeyProvider} used for map insertion.
-   * @param nilPolicy {@link NilPolicy} used for handling nil values.
-   * @param structuredDataPolicy {@link StructuredDataPolicy} used for handling Structured Data output.
+   * @param keyProvider          {@link KeyProvider} used for map insertion.
+   * @param nilPolicy            {@link NilPolicy} used for handling nil values.
+   * @param structuredDataPolicy {@link StructuredDataPolicy} used for handling Structured Data
+   *                                                        output.
    */
-  public Syslog5424Listener(KeyProvider keyProvider, NilPolicy nilPolicy, StructuredDataPolicy structuredDataPolicy) {
+  public Syslog5424Listener(KeyProvider keyProvider, NilPolicy nilPolicy,
+                            StructuredDataPolicy structuredDataPolicy) {
     this(keyProvider, nilPolicy, structuredDataPolicy, EnumSet.of(AllowableDeviations.NONE));
   }
 
   /**
    * Create a new {@code Syslog5424Listener}.
    *
-   * @param keyProvider {@link KeyProvider} used for map insertion.
-   * @param nilPolicy {@link NilPolicy} used for handling nil values.
-   * @param structuredDataPolicy {@link StructuredDataPolicy} used for handling Structured Data output.
-   * @param deviations {@link AllowableDeviations} used for handling abnormalities.
+   * @param keyProvider          {@link KeyProvider} used for map insertion.
+   * @param nilPolicy            {@link NilPolicy} used for handling nil values.
+   * @param structuredDataPolicy {@link StructuredDataPolicy} used for handling Structured Data
+   *                                                         output.
+   * @param deviations           {@link AllowableDeviations} used for handling abnormalities.
    */
-  public Syslog5424Listener(KeyProvider keyProvider, NilPolicy nilPolicy, StructuredDataPolicy structuredDataPolicy,
-      EnumSet<AllowableDeviations> deviations) {
+  public Syslog5424Listener(KeyProvider keyProvider, NilPolicy nilPolicy,
+                            StructuredDataPolicy structuredDataPolicy,
+                            EnumSet<AllowableDeviations> deviations) {
     Validate.notNull(keyProvider, "keyProvider");
     this.keyProvider = keyProvider;
     if (nilPolicy != null) {
@@ -119,7 +124,8 @@ public class Syslog5424Listener extends Rfc5424BaseListener implements MessageMa
    */
   @Override
   public Map<String, Object> getMessageMap() {
-    if (msgMap.get(keyProvider.getHeaderPriority()) == null && !deviations.contains(AllowableDeviations.PRIORITY)) {
+    if (msgMap.get(keyProvider.getHeaderPriority()) == null && !deviations
+        .contains(AllowableDeviations.PRIORITY)) {
       throw new ParseException("Priority missing with strict parsing");
     } else if (msgMap.get(keyProvider.getHeaderVersion()) == null && !deviations
         .contains(AllowableDeviations.VERSION)) {
@@ -127,7 +133,6 @@ public class Syslog5424Listener extends Rfc5424BaseListener implements MessageMa
     }
     return Collections.unmodifiableMap(msgMap);
   }
-
 
   @Override
   public void exitHeaderPriorityValue(Rfc5424Parser.HeaderPriorityValueContext ctx) {
@@ -198,8 +203,8 @@ public class Syslog5424Listener extends Rfc5424BaseListener implements MessageMa
 
   @Override
   public void exitHeaderTimeStamp(Rfc5424Parser.HeaderTimeStampContext ctx) {
-    msgMap.put(keyProvider.getHeaderTimeStamp(), ctx.full_date().getText()
-        + "T" + ctx.full_time().getText());
+    msgMap.put(keyProvider.getHeaderTimeStamp(),
+        ctx.full_date().getText() + "T" + ctx.full_time().getText());
   }
 
   @Override
@@ -225,8 +230,7 @@ public class Syslog5424Listener extends Rfc5424BaseListener implements MessageMa
       msgMap.putIfAbsent(keyProvider.getStructuredBase(), new HashMap<String, Object>());
       Map<String, Object> paramMap = new HashMap<>();
       for (Rfc5424Parser.Sd_paramContext paramContext : ctx.sd_param()) {
-        paramMap.put(((Rfc5424Parser.SdParamContext) paramContext).param_name()
-                .getText(),
+        paramMap.put(((Rfc5424Parser.SdParamContext) paramContext).param_name().getText(),
             ((Rfc5424Parser.SdParamContext) paramContext).param_value().getText());
       }
       ((Map<String, Object>) msgMap.get(keyProvider.getStructuredBase())).put(id, paramMap);

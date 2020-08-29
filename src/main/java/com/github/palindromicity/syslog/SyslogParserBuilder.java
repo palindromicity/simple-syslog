@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,38 +24,35 @@ import java.util.EnumSet;
 public class SyslogParserBuilder {
 
   /**
-   * The {@link AllowableDeviations}.
-   * Defaults to {@link AllowableDeviations#NONE}
+   * The {@link AllowableDeviations}. Defaults to {@link AllowableDeviations#NONE}
    */
   private EnumSet<AllowableDeviations> deviations = EnumSet.of(AllowableDeviations.NONE);
 
   /**
-   * The {@link KeyProvider}.
-   * Defaults to {@link DefaultKeyProvider}
+   * The {@link KeyProvider}. Defaults to {@link DefaultKeyProvider}
    */
   private KeyProvider keyProvider = new DefaultKeyProvider();
 
   /**
-   * The {@link NilPolicy}.
-   * Defaults to {@link NilPolicy#OMIT}
+   * The {@link NilPolicy}. Defaults to {@link NilPolicy#OMIT}
    */
   private NilPolicy nilPolicy = NilPolicy.OMIT;
 
   /**
-   * The {@link StructuredDataPolicy}.
-   * Defaults to {@link StructuredDataPolicy#FLATTEN}
+   * The {@link StructuredDataPolicy}. Defaults to {@link StructuredDataPolicy#FLATTEN}
    */
   private StructuredDataPolicy structuredDataPolicy = StructuredDataPolicy.FLATTEN;
 
   /**
-   * The {@link SyslogSpecification}.
-   * Defaults to {@link SyslogSpecification#RFC_5424}
+   * The {@link SyslogSpecification}. Defaults to {@link SyslogSpecification#RFC_5424}
    */
   private SyslogSpecification specification = SyslogSpecification.RFC_5424;
 
   /**
    * Specify which {@link SyslogSpecification} to parse.
-   * @param specification {@link SyslogSpecification#RFC_5424} or {@link SyslogSpecification#RFC_3164}
+   *
+   * @param specification {@link SyslogSpecification#RFC_5424}
+   *                      or {@link SyslogSpecification#RFC_3164}
    * @return {@code SyslogParserBuilder}
    */
   public SyslogParserBuilder forSpecification(SyslogSpecification specification) {
@@ -108,9 +105,20 @@ public class SyslogParserBuilder {
    * @throws IllegalStateException if deviations is unknown
    */
   public SyslogParser build() {
-    if (specification == SyslogSpecification.RFC_5424) {
-      return new Rfc5424SyslogParser(keyProvider, nilPolicy, structuredDataPolicy, deviations);
+    SyslogParser parser = null;
+    switch (specification) {
+      case RFC_5424:
+      case RFC_6587_5424:
+        parser = new Rfc5424SyslogParser(keyProvider, nilPolicy, structuredDataPolicy,
+            deviations, specification);
+        break;
+      case RFC_3164:
+      case RFC_6587_3164:
+        parser = new Rfc3164SyslogParser(keyProvider, deviations, specification);
+        break;
+      default:
+        throw new IllegalStateException("unknown specification");
     }
-    return new Rfc3164SyslogParser(keyProvider,deviations);
+    return parser;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,6 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
       + "[exampleSDID@32480 iut=\"4\" eventSource=\"Other [so called \\] Application\" eventID=\"2022\"]"
       + " Removing instance";
 
-
   private static final String SYSLOG_LINE_NO_MSG = "<14>1 2014-06-20T09:14:07+00:00 loggregator"
       + " d0602076-b14a-4c55-852a-981e7afeed38 DEA MSG-01"
       + " [exampleSDID@32473 iut=\"3\" eventSource=\"Application\" eventID=\"1011\"]";
@@ -80,6 +79,22 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   private static final String expectedEventSource2EscapedRightBracket = "Other [so called \\] Application";
   private static final String expectedEventID1 = "1011";
   private static final String expectedEventID2 = "2022";
+  private static final String OCTET_MSG = "83 <40>1 2012-11-30T06:45:29+00:00 host app web.3 - -" +
+      " State changed from starting to up";
+
+
+  @Test
+  public void testParseOctetLine() throws Exception {
+    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_6587_5424).build();
+    Map<String, Object> map = handleLine(OCTET_MSG, parser);
+    Assert.assertNotNull(map);
+    Assert.assertEquals("40", map.get(SyslogFieldKeys.HEADER_PRI.getField()));
+    Assert.assertEquals("1", map.get(SyslogFieldKeys.HEADER_VERSION.getField()));
+    Assert.assertEquals("5", map.get(SyslogFieldKeys.HEADER_PRI_FACILITY.getField()));
+    Assert.assertEquals("0", map.get(SyslogFieldKeys.HEADER_PRI_SEVERITY.getField()));
+    Assert.assertEquals("host", map.get(SyslogFieldKeys.HEADER_HOSTNAME.getField()));
+    Assert.assertEquals("app", map.get(SyslogFieldKeys.HEADER_APPNAME.getField()));
+  }
 
   @Test
   @SuppressWarnings("unchecked")
@@ -230,8 +245,6 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   }
 
 
-
-
   @Test
   @SuppressWarnings("unchecked")
   public void testParseLineNoMessage() throws Exception {
@@ -340,7 +353,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
     final AtomicInteger errorCount = new AtomicInteger();
     SyslogParser parser = new SyslogParserBuilder().build();
     handleFile("src/test/resources/logs/5424/log_all_with_errors.txt", parser, (map) -> mapCount.incrementAndGet(),
-        (line,throwable) -> errorCount.incrementAndGet());
+        (line, throwable) -> errorCount.incrementAndGet());
     Assert.assertEquals(1, mapCount.get());
     Assert.assertEquals(3, errorCount.get());
   }
@@ -377,9 +390,9 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   public void testParseLinesConsumer() throws Exception {
     SyslogParser parser = new SyslogParserBuilder().build();
     final AtomicInteger count = new AtomicInteger();
-    handleFile("src/test/resources/logs/5424/log_all.txt", parser, (map) -> {
-      count.incrementAndGet();
-    });
+    handleFile("src/test/resources/logs/5424/log_all.txt",
+        parser,
+        (map) -> count.incrementAndGet());
 
     Assert.assertEquals(count.get(), 1);
   }
@@ -388,26 +401,24 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   public void testParseLinesConsumerMix() throws Exception {
     SyslogParser parser = new SyslogParserBuilder().build();
     final AtomicInteger count = new AtomicInteger();
-    handleFile("src/test/resources/logs/5424/log_mix.txt", parser, (map) -> {
-      count.incrementAndGet();
-    });
+    handleFile("src/test/resources/logs/5424/log_mix.txt",
+        parser,
+        (map) -> count.incrementAndGet());
 
     Assert.assertEquals(count.get(), 3);
   }
 
   @Test(expected = ParseException.class)
-  @SuppressWarnings("unchecked")
   public void testInvalidLine() throws Exception {
     SyslogParser parser = new SyslogParserBuilder().build();
-    Map<String, Object> map = handleLine("10 Oct 13 14:14:43 localhost some body of the message", parser);
+    handleLine("10 Oct 13 14:14:43 localhost some body of the message", parser);
   }
 
   @Test(expected = ParseException.class)
-  @SuppressWarnings("unchecked")
   public void testInvalidLineConsumer() throws Exception {
     SyslogParser parser = new SyslogParserBuilder().build();
-    handleLine("10 Oct 13 14:14:43 localhost some body of the message", parser, (map) -> {
-      Assert.fail();
-    });
+    handleLine("10 Oct 13 14:14:43 localhost some body of the message",
+        parser,
+        (map) -> Assert.fail());
   }
 }

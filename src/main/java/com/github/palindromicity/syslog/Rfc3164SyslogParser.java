@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,13 @@
 
 package com.github.palindromicity.syslog;
 
-import java.util.EnumSet;
-import java.util.Map;
-
 import com.github.palindromicity.syslog.dsl.DefaultErrorListener;
 import com.github.palindromicity.syslog.dsl.Syslog3164Listener;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164Lexer;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164Parser;
 import com.github.palindromicity.syslog.util.Validate;
+import java.util.EnumSet;
+import java.util.Map;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -32,15 +31,19 @@ import org.antlr.v4.runtime.CommonTokenStream;
  */
 class Rfc3164SyslogParser extends AbstractSyslogParser {
 
+  SyslogSpecification specification;
+
   /**
    * Create a new {@code Rfc3164SyslogParser}.
    *
-   * @param keyProvider {@link com.github.palindromicity.syslog.KeyProvider} to provide keys for the
-   * {@link Syslog3164Listener}.
-   * @param deviations {@link AllowableDeviations} for parsing
+   * @param keyProvider {@link com.github.palindromicity.syslog.KeyProvider} to provide keys for
+   *                    the {@link Syslog3164Listener}.
+   * @param deviations  {@link AllowableDeviations} for parsing
    */
-  Rfc3164SyslogParser(KeyProvider keyProvider, EnumSet<AllowableDeviations> deviations) {
+  Rfc3164SyslogParser(KeyProvider keyProvider, EnumSet<AllowableDeviations> deviations,
+                      SyslogSpecification specification) {
     super(keyProvider, deviations);
+    this.specification = specification;
   }
 
   @Override
@@ -54,7 +57,11 @@ class Rfc3164SyslogParser extends AbstractSyslogParser {
     parser.addParseListener(listener);
     parser.removeErrorListeners();
     parser.addErrorListener(new DefaultErrorListener());
-    parser.syslog_msg();
+    if (specification == SyslogSpecification.RFC_3164) {
+      parser.syslog_msg();
+    } else if (specification == SyslogSpecification.RFC_6587_3164) {
+      parser.octet_prefixed();
+    }
     return listener.getMessageMap();
   }
 }

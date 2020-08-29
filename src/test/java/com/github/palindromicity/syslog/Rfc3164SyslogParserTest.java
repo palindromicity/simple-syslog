@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog-5424 authors
+ * Copyright 2018-2020 simple-syslog-5424 authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,6 +64,25 @@ public class Rfc3164SyslogParserTest extends AbstractRfc3164SyslogParserTest {
   private static final String expectedTimestampOne = "2018-09-14T00:54:09+00:00";
   private static final String expectedFacilityOne = "22";
   private static final String expectedSeverityOne = "5";
+  private static final String OCTET_MSG = "83 <181>Aug  6 17:26:31 10.34.84.145 Aug  7 00:45:43 stage-pdp01" +
+      " CISE_Profiler 0000024855 1 0 2014-08-07 00:45:43.741 -07:00 0000288542 80002 INFO  Profiler: Profiler" +
+      " EndPoint profiling event occurred, ConfigVersionId=113, EndpointCertainityMetric=10," +
+      " EndpointIPAddress=10.56.111.14, EndpointMacAddress=3C:97:0E:C3:F8:F1, EndpointMatchedPolicy=Nortel-Device," +
+      " EndpointNADAddress=10.56.72.127, EndpointOUI=Wistron InfoComm(Kunshan)Co.\\,Ltd.," +
+      " EndpointPolicy=Nortel-Device, EndpointProperty=StaticAssignment=false\\,PostureApplicable=Yes\\," +
+      "PolicyVersion=402\\,IdentityGroupID=0c1d9270-68a6-11e1-bc72-0050568e013c\\,Total Certainty Factor=10\\," +
+      "BYODRegistration=Unknown\\,FeedService=false\\,EndPointPolicyID=49054ed0-68a6-11e1-bc72-0050568e013c\\," +
+      "FirstCollection=1407397543718\\,MatchedPolicyID=49054ed0-68a6-11e1-bc72-0050568e013c\\,TimeToProfile=19\\," +
+      "StaticGroupAssignment=false\\,NmapSubnetScanID=0\\,DeviceRegistrationStatus=NotRegistered\\,PortalUser=," +
+      " EndpointSourceEvent=SNMPQuery Probe, EndpointIdentityGroup=Profiled, ProfilerServer=stage-pdp01.cisco.com";
+
+  @Test
+  @SuppressWarnings("unchecked")
+  public void testParseOctetLine() throws Exception {
+    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_6587_3164).build();
+    Map<String, Object> map = handleLine(OCTET_MSG, parser);
+    Assert.assertNotNull(map);
+  }
 
   @Test
   @SuppressWarnings("unchecked")

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,8 @@ public interface MessageMapProvider {
 
   /**
    * Returns a {@code Map}.
+   *
    * @return {@code Map}
    */
-  Map<String,Object> getMessageMap();
+  Map<String, Object> getMessageMap();
 }

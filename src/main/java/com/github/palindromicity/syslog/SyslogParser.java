@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,9 +37,10 @@ public interface SyslogParser {
   Map<String, Object> parseLine(String line);
 
   /**
-   * Parse a {@code String} to a {@code Map} and provides that {@code Map} to the provided {@code Consumer}.
+   * Parse a {@code String} to a {@code Map} and provides that {@code Map}
+   * to the provided {@code Consumer}.
    *
-   * @param line the line of Syslog to parser
+   * @param line     the line of Syslog to parser
    * @param consumer the {@code Consumer}
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
    */
@@ -51,7 +52,7 @@ public interface SyslogParser {
    * @param reader {@code Reader} used.  It is not closed in this method.
    * @return {@code List} of {@code Map}
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
-   * @throws IllegalArgumentException if reader is null
+   * @throws IllegalArgumentException                            if reader is null
    */
   List<Map<String, Object>> parseLines(Reader reader);
 
@@ -59,10 +60,10 @@ public interface SyslogParser {
    * Reads each line from the {@code Reader} and parses it to {@code Map}, which is passed to the
    * provided {@code Consumer}.
    *
-   * @param reader {@code Reader} used.  It is not closed in this method.
+   * @param reader   {@code Reader} used.  It is not closed in this method.
    * @param consumer the {@code Consumer}
-   * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing any line
-   * @throws IllegalArgumentException if reader or consumer are null
+   * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
+   * @throws IllegalArgumentException                            if reader or consumer are null
    */
   void parseLines(Reader reader, Consumer<Map<String, Object>> consumer);
 
@@ -71,11 +72,11 @@ public interface SyslogParser {
    * provided {@code Consumer}. For any line where a {@code ParseException} would be thrown, it will
    * will be passed to the errorConsumer.
    *
-   * @param reader {@code Reader} used.  It is not closed in this method.
+   * @param reader          {@code Reader} used.  It is not closed in this method.
    * @param messageConsumer the {@code Consumer} for messages
-   * @param errorConsumer the {@code Consumer} for syslog lines and their errors.
+   * @param errorConsumer   the {@code Consumer} for syslog lines and their errors.
    * @throws IllegalArgumentException if reader, messageConsumer, or errorConsumer are null
    */
   void parseLines(Reader reader, Consumer<Map<String, Object>> messageConsumer,
-      BiConsumer<String, Throwable> errorConsumer);
+                  BiConsumer<String, Throwable> errorConsumer);
 }

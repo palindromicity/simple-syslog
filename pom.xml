@@ -63,12 +63,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.17</version>
+          <version>3.1.1</version>
           <dependencies>
             <dependency>
               <groupId>com.puppycrawl.tools</groupId>
               <artifactId>checkstyle</artifactId>
-              <version>8.0</version>
+              <version>8.29</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -110,13 +110,16 @@
             <id>validate</id>
             <phase>validate</phase>
             <configuration>
-              <configLocation>extras/checkstyle/checkstyle.xml</configLocation>
+              <!--<configLocation>extras/checkstyle/checkstyle.xml</configLocation>-->
+              <configLocation>google_checks.xml</configLocation>
               <encoding>UTF-8</encoding>
               <consoleOutput>true</consoleOutput>
               <failsOnError>true</failsOnError>
               <failOnViolation>true</failOnViolation>
-              <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-              <includeTestSourceDirectory>true</includeTestSourceDirectory>
+              <sourceDirectories>
+                <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+              </sourceDirectories>
+              <includeTestSourceDirectory>false</includeTestSourceDirectory>
               <excludes>antlr4/*,com/github/palindromicity/syslog/dsl/generated/*</excludes>
             </configuration>
             <goals>

@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/palindromicity/simple-syslog.svg?branch=master)](https://travis-ci.org/palindromicity/simple-syslog)
 
-### Simple Syslog 
+### Simple Syslog
 
 A java library for parsing valid Syslog [IETF RFC 5424](https://tools.ietf.org/html/rfc5424) and [IETF_RFC_3164](https://tools.ietf.org/html/rfc3164) logs.
 The library provides it's own parser implementations, but also exposes the Antlr generated base classes
@@ -28,7 +28,7 @@ a `Reader` and all `parseLines`
   try (Reader reader = new BufferedReader(new FileReader(new File(fileName)))) {
       syslogMapList = parser.parseLines(reader);
   }
- 
+
 ```
 
 Both `parseLine` and `parseLines` also provide a functional interface if you prefer that style.
@@ -50,7 +50,7 @@ Just pass a `Consumer` to the function.
         // do something with each map
       });
   }
- 
+
 ```
 
 ```java
@@ -82,7 +82,7 @@ a `Reader` and all `parseLines`
   try (Reader reader = new BufferedReader(new FileReader(new File(fileName)))) {
       syslogMapList = parser.parseLines(reader);
   }
- 
+
 ```
 
 Both `parseLine` and `parseLines` also provide a functional interface if you prefer that style.
@@ -104,7 +104,7 @@ Just pass a `Consumer` to the function.
         // do something with each map
       });
   }
- 
+
 ```
 
 ```java
@@ -118,13 +118,20 @@ Just pass a `Consumer` to the function.
   }
 ```
 
+### RFC 6587
+
+[RFC 6587](https://tools.ietf.org/html/rfc6587#section-3.4.1) describe a method of transmitting Syslog messages of
+either specifications prefixed with octet counts.
+Simple Syslog supports these messages with explicit specifications available.
+
+
 ### Options
 
 Besides setting the `SyslogSpecification` the `SyslogParserBuilder` supports options for changing the `AllowableVariations`, the `SyslogSpecifictation` and the `KeyProvider`.
 
 ##### SyslogSpecification
 
-The specifications supported by the library.  `RFC_5424` and `RFC_3164`.
+The specifications supported by the library.  `RFC_5424`, `RFC_6587_5424`, `RFC_3164`, and `RFC_6587_3164`.
 
 ##### AllowableDeviations
 
@@ -198,7 +205,7 @@ Simple Syslog 5424 uses [Antlr 4](http://www.antlr.org) to generate the `Listene
 The generated `Rfc5424Listener` and `Rfc5424Visitor` interfaces, or `Rfc5424BaseListener` and `Rfc5424BaseVisitor` classes,
 may be used to implement new parsers as well in the event that you prefer different handling.
 
-Implementors would then build their own parsers or builders etc.  In other words the use of this library would 
+Implementors would then build their own parsers or builders etc.  In other words the use of this library would
 minimally be the Antlr classes alone.
 
 For example you would build a 'parser' that used your implementations, most likely implemented like this:
@@ -249,7 +256,7 @@ For example you would build a 'parser' that used your implementations, most like
 <dependency>
   <groupId>com.github.palindromicity</groupId>
   <artifactId>simple-syslog</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
   <type>pom</type>
 </dependency>
 ```

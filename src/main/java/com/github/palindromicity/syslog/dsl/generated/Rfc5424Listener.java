@@ -3,7 +3,7 @@ package com.github.palindromicity.syslog.dsl.generated;
 
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,16 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  * {@link Rfc5424Parser}.
  */
 public interface Rfc5424Listener extends ParseTreeListener {
+	/**
+	 * Enter a parse tree produced by {@link Rfc5424Parser#octet_prefixed}.
+	 * @param ctx the parse tree
+	 */
+	void enterOctet_prefixed(Rfc5424Parser.Octet_prefixedContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Rfc5424Parser#octet_prefixed}.
+	 * @param ctx the parse tree
+	 */
+	void exitOctet_prefixed(Rfc5424Parser.Octet_prefixedContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code syslogMsg}
 	 * labeled alternative in {@link Rfc5424Parser#syslog_msg}.
