@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,13 @@
 
 package com.github.palindromicity.syslog;
 
-import java.util.EnumSet;
-import java.util.Map;
-
 import com.github.palindromicity.syslog.dsl.DefaultErrorListener;
 import com.github.palindromicity.syslog.dsl.Syslog5424Listener;
 import com.github.palindromicity.syslog.dsl.generated.Rfc5424Lexer;
 import com.github.palindromicity.syslog.dsl.generated.Rfc5424Parser;
 import com.github.palindromicity.syslog.util.Validate;
+import java.util.EnumSet;
+import java.util.Map;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -32,23 +31,31 @@ import org.antlr.v4.runtime.CommonTokenStream;
  */
 class Rfc5424SyslogParser extends AbstractSyslogParser {
 
+  SyslogSpecification specification;
+
   /**
    * Create a new {@code Rfc5424SyslogParser}.
    *
-   * @param keyProvider {@link com.github.palindromicity.syslog.KeyProvider} to provide keys for the
-   * {@link Syslog5424Listener}.
+   * @param keyProvider {@link com.github.palindromicity.syslog.KeyProvider} to provide keys for
+   *                     the {@link Syslog5424Listener}.
    */
   Rfc5424SyslogParser(KeyProvider keyProvider) {
-    this(keyProvider, null, null, EnumSet.of(AllowableDeviations.NONE));
+    this(keyProvider, null, null, EnumSet.of(AllowableDeviations.NONE),
+        SyslogSpecification.RFC_5424);
   }
 
-  Rfc5424SyslogParser(KeyProvider keyProvider, NilPolicy nilPolicy, StructuredDataPolicy structuredDataPolicy) {
-    this(keyProvider, nilPolicy, structuredDataPolicy, EnumSet.of(AllowableDeviations.NONE));
+  Rfc5424SyslogParser(KeyProvider keyProvider, NilPolicy nilPolicy,
+                      StructuredDataPolicy structuredDataPolicy) {
+    this(keyProvider, nilPolicy, structuredDataPolicy, EnumSet.of(AllowableDeviations.NONE),
+        SyslogSpecification.RFC_5424);
   }
 
-  Rfc5424SyslogParser(KeyProvider keyProvider, NilPolicy nilPolicy, StructuredDataPolicy structuredDataPolicy,
-      EnumSet<AllowableDeviations> deviations) {
+  Rfc5424SyslogParser(KeyProvider keyProvider, NilPolicy nilPolicy,
+                      StructuredDataPolicy structuredDataPolicy,
+                      EnumSet<AllowableDeviations> deviations,
+                      SyslogSpecification specification) {
     super(keyProvider, deviations, nilPolicy, structuredDataPolicy);
+    this.specification = specification;
   }
 
   @Override
@@ -58,12 +65,17 @@ class Rfc5424SyslogParser extends AbstractSyslogParser {
     lexer.removeErrorListeners();
     lexer.addErrorListener(new DefaultErrorListener());
     Rfc5424Parser parser = new Rfc5424Parser(new CommonTokenStream(lexer));
-    Syslog5424Listener listener = new Syslog5424Listener(getKeyProvider(), getNilPolicy(), getStructuredDataPolicy(),
+    Syslog5424Listener listener = new Syslog5424Listener(getKeyProvider(), getNilPolicy(),
+        getStructuredDataPolicy(),
         getDeviations());
     parser.addParseListener(listener);
     parser.removeErrorListeners();
     parser.addErrorListener(new DefaultErrorListener());
-    parser.syslog_msg();
+    if (specification == SyslogSpecification.RFC_5424) {
+      parser.syslog_msg();
+    } else if (specification == SyslogSpecification.RFC_6587_5424) {
+      parser.octet_prefixed();
+    }
     return listener.getMessageMap();
   }
 }

@@ -3,7 +3,7 @@ package com.github.palindromicity.syslog.dsl.generated;
 
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,13 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * operations with no return type.
  */
 public class Rfc5424BaseVisitor<T> extends AbstractParseTreeVisitor<T> implements Rfc5424Visitor<T> {
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitOctet_prefixed(Rfc5424Parser.Octet_prefixedContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

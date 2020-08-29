@@ -1,19 +1,24 @@
 package com.github.palindromicity.syslog.util;
 
+import com.github.palindromicity.syslog.KeyProvider;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
-
-import com.github.palindromicity.syslog.KeyProvider;
 
 /**
  * This utility class takes a 'flattened' syslog map and un-flattens it.
  */
 public class StructuredDataUtil {
 
+  /**
+   * Unflattens a flat map such that it contains any nested maps required.
+   * @param flattenedMap the map to unflatten
+   * @param keyProvider the key provider to use
+   * @return Map
+   */
   @SuppressWarnings("unchecked")
   public static Map<String, Object> unFlattenStructuredData(Map<String, Object> flattenedMap,
-      KeyProvider keyProvider) {
+                                                            KeyProvider keyProvider) {
     Validate.notNull(keyProvider, "keyProvider");
     Validate.notNull(flattenedMap, "flattenedMap");
     boolean hasStructuredData = false;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,9 @@ public class SyslogParserBuilderTest {
 
   @Test
   public void testWithSpecification() {
-    SyslogParser parser = new SyslogParserBuilder().withDeviations(EnumSet.of(AllowableDeviations.NONE)).build();
-    assertTrue(parser.getClass() == Rfc5424SyslogParser.class);
+    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164)
+        .withDeviations(EnumSet.of(AllowableDeviations.NONE)).build();
+    assertTrue(parser.getClass() == Rfc3164SyslogParser.class);
   }
 
   @Test

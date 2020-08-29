@@ -1,19 +1,19 @@
 package com.github.palindromicity.syslog;
 
-import java.util.regex.Pattern;
-
 import com.github.palindromicity.syslog.dsl.SyslogFieldKeys;
+import java.util.regex.Pattern;
 
 /**
  * Default implementation of {@link KeyProvider}.
  *
  * <p>
- *   This implementation uses the {@link SyslogFieldKeys} for values.
+ * This implementation uses the {@link SyslogFieldKeys} for values.
  * </p>
  */
 public class DefaultKeyProvider implements KeyProvider {
-  private static Pattern STRUCTURED_ELEMENT_ID_PNAME_PATTERN =
-      Pattern.compile(SyslogFieldKeys.STRUCTURED_ELEMENT_ID_PNAME_PATTERN.getField());
+
+  private static Pattern STRUCTURED_ELEMENT_ID_PNAME_PATTERN = Pattern
+      .compile(SyslogFieldKeys.STRUCTURED_ELEMENT_ID_PNAME_PATTERN.getField());
 
   @Override
   public String getMessage() {

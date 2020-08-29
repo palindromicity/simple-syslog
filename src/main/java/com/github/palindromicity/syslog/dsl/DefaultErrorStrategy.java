@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ public class DefaultErrorStrategy extends org.antlr.v4.runtime.DefaultErrorStrat
 
   @Override
   public void reportError(Parser parser, RecognitionException recognitionException) {
-    throw new ParseException("Parse Error " + recognitionException.getMessage(), recognitionException);
+    throw new ParseException("Parse Error " + recognitionException.getMessage(),
+        recognitionException);
   }
 }

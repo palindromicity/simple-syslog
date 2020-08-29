@@ -3,7 +3,7 @@ package com.github.palindromicity.syslog.dsl.generated;
 
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2020 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,18 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * of the available methods.
  */
 public class Rfc5424BaseListener implements Rfc5424Listener {
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOctet_prefixed(Rfc5424Parser.Octet_prefixedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOctet_prefixed(Rfc5424Parser.Octet_prefixedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
