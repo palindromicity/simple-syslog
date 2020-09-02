@@ -51,6 +51,12 @@ public interface Rfc5424Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSyslogMsg(Rfc5424Parser.SyslogMsgContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Rfc5424Parser#octet_prefix}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code syslogHeader}
 	 * labeled alternative in {@link Rfc5424Parser#header}.
 	 * @param ctx the parse tree

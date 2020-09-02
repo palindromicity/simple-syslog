@@ -58,6 +58,13 @@ public class Rfc5424BaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitSyslogHeader(Rfc5424Parser.SyslogHeaderContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

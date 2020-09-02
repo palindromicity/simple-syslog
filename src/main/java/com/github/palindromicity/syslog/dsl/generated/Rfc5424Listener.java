@@ -62,6 +62,16 @@ public interface Rfc5424Listener extends ParseTreeListener {
 	 */
 	void exitSyslogMsg(Rfc5424Parser.SyslogMsgContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Rfc5424Parser#octet_prefix}.
+	 * @param ctx the parse tree
+	 */
+	void enterOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Rfc5424Parser#octet_prefix}.
+	 * @param ctx the parse tree
+	 */
+	void exitOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code syslogHeader}
 	 * labeled alternative in {@link Rfc5424Parser#header}.
 	 * @param ctx the parse tree

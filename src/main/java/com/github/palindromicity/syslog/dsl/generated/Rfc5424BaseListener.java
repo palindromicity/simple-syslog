@@ -72,6 +72,18 @@ public class Rfc5424BaseListener implements Rfc5424Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSyslogHeader(Rfc5424Parser.SyslogHeaderContext ctx) { }
 	/**
 	 * {@inheritDoc}
