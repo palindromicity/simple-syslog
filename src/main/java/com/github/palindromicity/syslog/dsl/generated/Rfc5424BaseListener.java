@@ -36,6 +36,18 @@ public class Rfc5424BaseListener implements Rfc5424Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterOctet_prefixed(Rfc5424Parser.Octet_prefixedContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -55,6 +67,18 @@ public class Rfc5424BaseListener implements Rfc5424Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSyslogMsg(Rfc5424Parser.SyslogMsgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

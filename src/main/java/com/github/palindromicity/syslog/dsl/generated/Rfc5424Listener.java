@@ -28,6 +28,18 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface Rfc5424Listener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by the {@code herokuHttpsMsg}
+	 * labeled alternative in {@link Rfc5424Parser#heroku_https_log_drain}.
+	 * @param ctx the parse tree
+	 */
+	void enterHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code herokuHttpsMsg}
+	 * labeled alternative in {@link Rfc5424Parser#heroku_https_log_drain}.
+	 * @param ctx the parse tree
+	 */
+	void exitHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Rfc5424Parser#octet_prefixed}.
 	 * @param ctx the parse tree
 	 */
@@ -49,6 +61,16 @@ public interface Rfc5424Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSyslogMsg(Rfc5424Parser.SyslogMsgContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Rfc5424Parser#octet_prefix}.
+	 * @param ctx the parse tree
+	 */
+	void enterOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Rfc5424Parser#octet_prefix}.
+	 * @param ctx the parse tree
+	 */
+	void exitOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code syslogHeader}
 	 * labeled alternative in {@link Rfc5424Parser#header}.

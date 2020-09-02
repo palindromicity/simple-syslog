@@ -75,6 +75,8 @@ class Rfc5424SyslogParser extends AbstractSyslogParser {
       parser.syslog_msg();
     } else if (specification == SyslogSpecification.RFC_6587_5424) {
       parser.octet_prefixed();
+    } else if (specification == SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN) {
+      parser.heroku_https_log_drain();
     }
     return listener.getMessageMap();
   }

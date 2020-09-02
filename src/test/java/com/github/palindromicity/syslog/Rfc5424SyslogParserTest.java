@@ -421,4 +421,12 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
         parser,
         (map) -> Assert.fail());
   }
+
+  @Test
+  public void testParseLinesMissingStructure() throws Exception {
+    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN).build();
+    List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_missing_structure.txt",
+      parser);
+    Assert.assertEquals(1, mapList.size());
+  }
 }

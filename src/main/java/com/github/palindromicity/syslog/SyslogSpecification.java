@@ -20,5 +20,5 @@ package com.github.palindromicity.syslog;
  * Enumeration of supported syslog RFCs.
  */
 public enum SyslogSpecification {
-  RFC_3164, RFC_6587_3164, RFC_5424, RFC_6587_5424
+  RFC_3164, RFC_6587_3164, RFC_5424, RFC_6587_5424, HEROKU_HTTPS_LOG_DRAIN
 }

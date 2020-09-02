@@ -109,6 +109,7 @@ public class SyslogParserBuilder {
     switch (specification) {
       case RFC_5424:
       case RFC_6587_5424:
+      case HEROKU_HTTPS_LOG_DRAIN:
         parser = new Rfc5424SyslogParser(keyProvider, nilPolicy, structuredDataPolicy,
             deviations, specification);
         break;

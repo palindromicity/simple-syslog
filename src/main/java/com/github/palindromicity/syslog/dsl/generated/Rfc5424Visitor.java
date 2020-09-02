@@ -31,6 +31,13 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface Rfc5424Visitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by the {@code herokuHttpsMsg}
+	 * labeled alternative in {@link Rfc5424Parser#heroku_https_log_drain}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Rfc5424Parser#octet_prefixed}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -43,6 +50,12 @@ public interface Rfc5424Visitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSyslogMsg(Rfc5424Parser.SyslogMsgContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Rfc5424Parser#octet_prefix}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOctet_prefix(Rfc5424Parser.Octet_prefixContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code syslogHeader}
 	 * labeled alternative in {@link Rfc5424Parser#header}.
