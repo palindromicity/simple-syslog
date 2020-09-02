@@ -28,6 +28,28 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface Rfc5424Listener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link Rfc5424Parser#heroku_https_log_drain}.
+	 * @param ctx the parse tree
+	 */
+	void enterHeroku_https_log_drain(Rfc5424Parser.Heroku_https_log_drainContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Rfc5424Parser#heroku_https_log_drain}.
+	 * @param ctx the parse tree
+	 */
+	void exitHeroku_https_log_drain(Rfc5424Parser.Heroku_https_log_drainContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code herokuHttpsMsg}
+	 * labeled alternative in {@link Rfc5424Parser#heroku_https_log_drain_msg}.
+	 * @param ctx the parse tree
+	 */
+	void enterHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code herokuHttpsMsg}
+	 * labeled alternative in {@link Rfc5424Parser#heroku_https_log_drain_msg}.
+	 * @param ctx the parse tree
+	 */
+	void exitHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Rfc5424Parser#octet_prefixed}.
 	 * @param ctx the parse tree
 	 */

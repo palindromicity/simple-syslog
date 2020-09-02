@@ -124,6 +124,14 @@ Just pass a `Consumer` to the function.
 either specifications prefixed with octet counts.
 Simple Syslog supports these messages with explicit specifications available.
 
+### Heroku HTTPS Log Drains
+
+[Heroku HTTPS Drains](https://devcenter.heroku.com/articles/log-drains#https-drains) An HTTPS encapsulated version of 
+RFC6587 and RFC5424.
+
+```java
+SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN).build();
+```
 
 ### Options
 

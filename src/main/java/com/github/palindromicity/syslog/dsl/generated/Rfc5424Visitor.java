@@ -31,6 +31,19 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface Rfc5424Visitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link Rfc5424Parser#heroku_https_log_drain}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHeroku_https_log_drain(Rfc5424Parser.Heroku_https_log_drainContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code herokuHttpsMsg}
+	 * labeled alternative in {@link Rfc5424Parser#heroku_https_log_drain_msg}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Rfc5424Parser#octet_prefixed}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

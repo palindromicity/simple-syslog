@@ -37,6 +37,10 @@ grammar Rfc5424;
 
 }
 
+ heroku_https_log_drain     : nonzero_digit digit* sp heroku_https_log_drain_msg;
+
+ heroku_https_log_drain_msg : header sp (structured_data)? (sp)? (msg)? #herokuHttpsMsg;
+
  octet_prefixed  : nonzero_digit digit* sp syslog_msg;
 
  syslog_msg      : header sp structured_data (sp)? (msg)? #syslogMsg;
