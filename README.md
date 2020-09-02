@@ -264,7 +264,7 @@ For example you would build a 'parser' that used your implementations, most like
 <dependency>
   <groupId>com.github.palindromicity</groupId>
   <artifactId>simple-syslog</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
   <type>pom</type>
 </dependency>
 ```
