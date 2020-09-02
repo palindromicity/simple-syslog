@@ -37,13 +37,6 @@ public class Rfc5424BaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitHeroku_https_log_drain(Rfc5424Parser.Heroku_https_log_drainContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

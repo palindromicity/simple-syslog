@@ -36,18 +36,6 @@ public class Rfc5424BaseListener implements Rfc5424Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterHeroku_https_log_drain(Rfc5424Parser.Heroku_https_log_drainContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitHeroku_https_log_drain(Rfc5424Parser.Heroku_https_log_drainContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterHerokuHttpsMsg(Rfc5424Parser.HerokuHttpsMsgContext ctx) { }
 	/**
 	 * {@inheritDoc}
