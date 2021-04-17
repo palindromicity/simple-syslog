@@ -405,4 +405,4 @@ U_00FD : '\u00FD';
 U_00FE : '\u00FE';
 U_00FF : '\u00FF';
 U_FEFF : '\uFEFF';
-WS: [ \n\r]+ -> skip;
+WS: [\n\r]+ -> skip;
