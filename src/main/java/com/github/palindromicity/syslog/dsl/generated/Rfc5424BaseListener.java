@@ -3,7 +3,7 @@ package com.github.palindromicity.syslog.dsl.generated;
 
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018-2020 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -480,18 +480,6 @@ public class Rfc5424BaseListener implements Rfc5424Listener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMsgAny(Rfc5424Parser.MsgAnyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMsgAny(Rfc5424Parser.MsgAnyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterMsgUTF8(Rfc5424Parser.MsgUTF8Context ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -499,18 +487,6 @@ public class Rfc5424BaseListener implements Rfc5424Listener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMsgUTF8(Rfc5424Parser.MsgUTF8Context ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMsg_any(Rfc5424Parser.Msg_anyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMsg_any(Rfc5424Parser.Msg_anyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

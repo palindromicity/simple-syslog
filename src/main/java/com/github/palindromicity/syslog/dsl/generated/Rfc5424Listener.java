@@ -3,7 +3,7 @@ package com.github.palindromicity.syslog.dsl.generated;
 
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018-2020 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -438,18 +438,6 @@ public interface Rfc5424Listener extends ParseTreeListener {
 	 */
 	void exitSd_name(Rfc5424Parser.Sd_nameContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code msgAny}
-	 * labeled alternative in {@link Rfc5424Parser#msg}.
-	 * @param ctx the parse tree
-	 */
-	void enterMsgAny(Rfc5424Parser.MsgAnyContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code msgAny}
-	 * labeled alternative in {@link Rfc5424Parser#msg}.
-	 * @param ctx the parse tree
-	 */
-	void exitMsgAny(Rfc5424Parser.MsgAnyContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code msgUTF8}
 	 * labeled alternative in {@link Rfc5424Parser#msg}.
 	 * @param ctx the parse tree
@@ -461,16 +449,6 @@ public interface Rfc5424Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMsgUTF8(Rfc5424Parser.MsgUTF8Context ctx);
-	/**
-	 * Enter a parse tree produced by {@link Rfc5424Parser#msg_any}.
-	 * @param ctx the parse tree
-	 */
-	void enterMsg_any(Rfc5424Parser.Msg_anyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Rfc5424Parser#msg_any}.
-	 * @param ctx the parse tree
-	 */
-	void exitMsg_any(Rfc5424Parser.Msg_anyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Rfc5424Parser#msg_utf8}.
 	 * @param ctx the parse tree

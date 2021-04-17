@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ grammar Rfc5424;
 @header {
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018-2020 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ grammar Rfc5424;
 
  octet_prefixed  : octet_prefix sp syslog_msg;
 
- syslog_msg      : header sp structured_data (sp)? (msg)? #syslogMsg;
+ syslog_msg      : header sp structured_data (sp)? (bom)? (msg)? #syslogMsg;
 
  octet_prefix    : nonzero_digit digit*;
 
@@ -117,16 +117,14 @@ grammar Rfc5424;
 
  sd_name         : printusasciinospecials* ;
 
- msg             : msg_any #msgAny
- | msg_utf8 #msgUTF8
+ msg          :msg_utf8 #msgUTF8
  ;
 
- msg_any         : octet*;
+ //msg_any         : octet*;
 
- msg_utf8        : bom utf_8_string;
+ msg_utf8        : utf_8_string;
 
- bom             : (U_00EF|U_00BB|U_00BF);
-
+ bom             : (U_00EF U_00BB U_00BF) | U_FEFF;
  utf_8_string    : octet*;
 
  octet           : (U_0000 | U_0001 | U_0002 | U_0003 | U_0004 | U_0005 | U_0006 | U_0007 | U_0008 | TAB | LF | U_000B | U_000C | CR | U_000E | U_000F | U_0010 | U_0011 | U_0012 | U_0013 | U_0014 | U_0015 | U_0016 | U_0017 | U_0018 | U_0019 | U_001A | U_001B | U_001C | U_001D | U_001E | U_001F | SPACE | EXCLAMATION | QUOTE | POUND | DOLLAR | PERCENT | AMPERSAND | APOSTROPHE | LEFT_PAREN | RIGHT_PAREN | ASTERISK | PLUS | COMMA | DASH | PERIOD | SLASH | ZERO | ONE | TWO | THREE | FOUR | FIVE | SIX | SEVEN | EIGHT | NINE | COLON | SEMICOLON | LESS_THAN | EQUALS | GREATER_THAN | QUESTION | AT | CAP_A | CAP_B | CAP_C | CAP_D | CAP_E | CAP_F | CAP_G | CAP_H | CAP_I | CAP_J | CAP_K | CAP_L | CAP_M | CAP_N | CAP_O | CAP_P | CAP_Q | CAP_R | CAP_S | CAP_T | CAP_U | CAP_V | CAP_W | CAP_X | CAP_Y | CAP_Z | LEFT_BRACE | BACKSLASH | RIGHT_BRACE | CARAT | UNDERSCORE | ACCENT | A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z | LEFT_CURLY_BRACE | PIPE | RIGHT_CURLY_BRACE | TILDE | U_007F | U_0080 | U_0081 | U_0082 | U_0083 | U_0084 | U_0085 | U_0086 | U_0087 | U_0088 | U_0089 | U_008A | U_008B | U_008C | U_008D | U_008E | U_008F | U_0090 | U_0091 | U_0092 | U_0093 | U_0094 | U_0095 | U_0096 | U_0097 | U_0098 | U_0099 | U_009A | U_009B | U_009C | U_009D | U_009E | U_009F | U_00A0 | U_00A1 | U_00A2 | U_00A3 | U_00A4 | U_00A5 | U_00A6 | U_00A7 | U_00A8 | U_00A9 | U_00AA | U_00AB | U_00AC | U_00AD | U_00AE | U_00AF | U_00B0 | U_00B1 | U_00B2 | U_00B3 | U_00B4 | U_00B5 | U_00B6 | U_00B7 | U_00B8 | U_00B9 | U_00BA | U_00BB | U_00BC | U_00BD | U_00BE | U_00BF | U_00C0 | U_00C1 | U_00C2 | U_00C3 | U_00C4 | U_00C5 | U_00C6 | U_00C7 | U_00C8 | U_00C9 | U_00CA | U_00CB | U_00CC | U_00CD | U_00CE | U_00CF | U_00D0 | U_00D1 | U_00D2 | U_00D3 | U_00D4 | U_00D5 | U_00D6 | U_00D7 | U_00D8 | U_00D9 | U_00DA | U_00DB | U_00DC | U_00DD | U_00DE | U_00DF | U_00E0 | U_00E1 | U_00E2 | U_00E3 | U_00E4 | U_00E5 | U_00E6 | U_00E7 | U_00E8 | U_00E9 | U_00EA | U_00EB | U_00EC | U_00ED | U_00EE | U_00EF | U_00F0 | U_00F1 | U_00F2 | U_00F3 | U_00F4 | U_00F5 | U_00F6 | U_00F7 | U_00F8 | U_00F9 | U_00FA | U_00FB | U_00FC | U_00FD | U_00FE | U_00FF);
@@ -150,9 +148,9 @@ grammar Rfc5424;
 // per http://www.unicode.org/charts/PDF/U0000.pdf
 //////////////////////////////////////////////////////////////////////////
 
-TAB : '\u0009';
-LF : '\u000A';
-CR : '\u000D';
+TAB : '\\u0009';
+LF : '\\u000A';
+CR : '\\u000D';
 SPACE : ' ';
 EXCLAMATION : '!';
 QUOTE : '"';
@@ -406,4 +404,5 @@ U_00FC : '\u00FC';
 U_00FD : '\u00FD';
 U_00FE : '\u00FE';
 U_00FF : '\u00FF';
-
+U_FEFF : '\uFEFF';
+WS: [ \n\r]+ -> skip;

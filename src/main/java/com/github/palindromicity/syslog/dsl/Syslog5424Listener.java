@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -237,6 +237,7 @@ public class Syslog5424Listener extends Rfc5424BaseListener implements MessageMa
     }
   }
 
+  /*
   @Override
   public void exitMsg_any(Rfc5424Parser.Msg_anyContext ctx) {
     final String msg = ctx.getText();
@@ -244,6 +245,7 @@ public class Syslog5424Listener extends Rfc5424BaseListener implements MessageMa
       msgMap.put(keyProvider.getMessage(), msg.trim());
     }
   }
+  */
 
   @Override
   public void exitMsg_utf8(Rfc5424Parser.Msg_utf8Context ctx) {
