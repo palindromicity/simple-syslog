@@ -1,9 +1,9 @@
-// Generated from com/github/palindromicity/syslog/dsl/generated/Rfc3164.g4 by ANTLR 4.5
+// Generated from com/github/palindromicity/syslog/dsl/generated/Rfc3164.g4 by ANTLR 4.7.2
 package com.github.palindromicity.syslog.dsl.generated;
 
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018-2020 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ package com.github.palindromicity.syslog.dsl.generated;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 

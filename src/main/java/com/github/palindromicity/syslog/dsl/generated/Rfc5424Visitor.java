@@ -1,9 +1,9 @@
-// Generated from com/github/palindromicity/syslog/dsl/generated/Rfc5424.g4 by ANTLR 4.5
+// Generated from com/github/palindromicity/syslog/dsl/generated/Rfc5424.g4 by ANTLR 4.7.2
 package com.github.palindromicity.syslog.dsl.generated;
 
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018-2020 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package com.github.palindromicity.syslog.dsl.generated;
  */
 
 
-import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -273,25 +272,12 @@ public interface Rfc5424Visitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSd_name(Rfc5424Parser.Sd_nameContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code msgAny}
-	 * labeled alternative in {@link Rfc5424Parser#msg}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMsgAny(Rfc5424Parser.MsgAnyContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code msgUTF8}
 	 * labeled alternative in {@link Rfc5424Parser#msg}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMsgUTF8(Rfc5424Parser.MsgUTF8Context ctx);
-	/**
-	 * Visit a parse tree produced by {@link Rfc5424Parser#msg_any}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMsg_any(Rfc5424Parser.Msg_anyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Rfc5424Parser#msg_utf8}.
 	 * @param ctx the parse tree

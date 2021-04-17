@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2020 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.github.palindromicity.syslog;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -363,6 +364,22 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
     SyslogParser parser = new SyslogParserBuilder().build();
     List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_all.txt", parser);
     Assert.assertEquals(1, mapList.size());
+  }
+
+  @Test
+  public void testBomParsing() throws Exception {
+    SyslogParser parser = new SyslogParserBuilder().withNilPolicy(NilPolicy.OMIT).withDeviations( EnumSet.of(AllowableDeviations.PRIORITY)).withStructuredDataPolicy(StructuredDataPolicy.MAP_OF_MAPS).build();
+    List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_with_bom.txt", parser);
+    Assert.assertEquals(1, mapList.size());
+  }
+
+  //log_utf8_umlauts.txt
+  @Test
+  public void testBomParsingUmlauts() throws Exception {
+    SyslogParser parser = new SyslogParserBuilder().withNilPolicy(NilPolicy.OMIT).withDeviations( EnumSet.of(AllowableDeviations.PRIORITY)).withStructuredDataPolicy(StructuredDataPolicy.MAP_OF_MAPS).build();
+    List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_utf8_umlauts.txt", parser);
+    Assert.assertEquals(1, mapList.size());
+    Assert.assertTrue(mapList.get(0).get("syslog.message").toString().contains("äöü"));
   }
 
   @Test

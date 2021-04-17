@@ -126,7 +126,7 @@ Simple Syslog supports these messages with explicit specifications available.
 
 ### Heroku HTTPS Log Drains
 
-[Heroku HTTPS Drains](https://devcenter.heroku.com/articles/log-drains#https-drains) An HTTPS encapsulated version of 
+[Heroku HTTPS Drains](https://devcenter.heroku.com/articles/log-drains#https-drains) An HTTPS encapsulated version of
 RFC6587 and RFC5424.
 
 ```java
@@ -245,26 +245,12 @@ For example you would build a 'parser' that used your implementations, most like
 
 --------
 
-```xml
-<repositories>
-  <repository>
-    <id>bintray</id>
-    <url>http://dl.bintray.com/palindromicity/simple-syslog</url>
-    <releases>
-      <enabled>true</enabled>
-    </releases>
-    <snapshots>
-      <enabled>false</enabled>
-    </snapshots>
-  </repository>
-</repositories>
-```
 
 ```xml
 <dependency>
   <groupId>com.github.palindromicity</groupId>
   <artifactId>simple-syslog</artifactId>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
   <type>pom</type>
 </dependency>
 ```

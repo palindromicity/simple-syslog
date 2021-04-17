@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ grammar Rfc3164;
 @header {
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018-2020 simple-syslog authors
+ * Copyright 2018-2021 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,9 +119,9 @@ grammar Rfc3164;
 // per http://www.unicode.org/charts/PDF/U0000.pdf
 //////////////////////////////////////////////////////////////////////////
 
-TAB : '\u0009';
-LF : '\u000A';
-CR : '\u000D';
+TAB : '\\u0009';
+LF : '\\u000A';
+CR : '\\u000D';
 SPACE : ' ';
 EXCLAMATION : '!';
 QUOTE : '"';
@@ -375,4 +375,4 @@ U_00FC : '\u00FC';
 U_00FD : '\u00FD';
 U_00FE : '\u00FE';
 U_00FF : '\u00FF';
-
+WS: [\n\r]+ -> skip;
