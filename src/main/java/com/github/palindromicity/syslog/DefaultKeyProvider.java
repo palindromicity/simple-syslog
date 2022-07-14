@@ -16,6 +16,11 @@ public class DefaultKeyProvider implements KeyProvider {
       .compile(SyslogFieldKeys.STRUCTURED_ELEMENT_ID_PNAME_PATTERN.getField());
 
   @Override
+  public String get(SyslogFieldKeys keys) {
+    return keys.getField();
+  }
+
+  @Override
   public String getMessage() {
     return SyslogFieldKeys.MESSAGE.getField();
   }

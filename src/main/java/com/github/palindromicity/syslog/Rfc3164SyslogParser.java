@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog authors
+ * Copyright 2018-2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,39 +21,37 @@ import com.github.palindromicity.syslog.dsl.Syslog3164Listener;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164Lexer;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164Parser;
 import com.github.palindromicity.syslog.util.Validate;
-import java.util.EnumSet;
-import java.util.Map;
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
  * {@link SyslogParser} for valid RFC 3164 syslog.
  */
-class Rfc3164SyslogParser extends AbstractSyslogParser {
+class Rfc3164SyslogParser<T> extends AbstractSyslogParser<T> {
 
   SyslogSpecification specification;
 
   /**
    * Create a new {@code Rfc3164SyslogParser}.
    *
-   * @param keyProvider {@link com.github.palindromicity.syslog.KeyProvider} to provide keys for
-   *                    the {@link Syslog3164Listener}.
-   * @param deviations  {@link AllowableDeviations} for parsing
+   * @param syslogBuilder {@link SyslogMessageConsumer} used gather data
    */
-  Rfc3164SyslogParser(KeyProvider keyProvider, EnumSet<AllowableDeviations> deviations,
+  Rfc3164SyslogParser(AbstractSyslogMessageHandler<T> syslogBuilder,
                       SyslogSpecification specification) {
-    super(keyProvider, deviations);
+    super(syslogBuilder);
     this.specification = specification;
   }
 
   @Override
-  public Map<String, Object> parseLine(String syslogLine) {
+  public T parseLine(String syslogLine) {
     Validate.notBlank(syslogLine, "syslogLine");
-    Rfc3164Lexer lexer = new Rfc3164Lexer(new ANTLRInputStream(syslogLine));
+    Rfc3164Lexer lexer = new Rfc3164Lexer(CharStreams.fromString(syslogLine));
     lexer.removeErrorListeners();
     lexer.addErrorListener(new DefaultErrorListener());
     Rfc3164Parser parser = new Rfc3164Parser(new CommonTokenStream(lexer));
-    Syslog3164Listener listener = new Syslog3164Listener(getKeyProvider(), getDeviations());
+    getSyslogBuilder().start();
+    Syslog3164Listener listener =
+        new Syslog3164Listener(getSyslogBuilder());
     parser.addParseListener(listener);
     parser.removeErrorListeners();
     parser.addErrorListener(new DefaultErrorListener());
@@ -62,6 +60,7 @@ class Rfc3164SyslogParser extends AbstractSyslogParser {
     } else if (specification == SyslogSpecification.RFC_6587_3164) {
       parser.octet_prefixed();
     }
-    return listener.getMessageMap();
+    getSyslogBuilder().complete();
+    return getSyslogBuilder().produce();
   }
 }

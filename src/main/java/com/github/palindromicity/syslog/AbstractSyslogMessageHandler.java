@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog authors
+ * Copyright 2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package com.github.palindromicity.syslog.dsl;
 
-import java.util.Map;
+package com.github.palindromicity.syslog;
 
 /**
- * Interface for classes that provide Message Maps.
+ * Abstract base class for handling consumption of syslog messages and productions of
+ * type T from those messages.
+ *
+ * @param <T> the {@code type} this handler produces
  */
-public interface MessageMapProvider {
-
-  /**
-   * Returns a {@code Map}.
-   *
-   * @return {@code Map}
-   */
-  Map<String, Object> getMessageMap();
+public abstract class AbstractSyslogMessageHandler<T>
+    implements SyslogMessageConsumer, SyslogMessageProducer<T> {
 }

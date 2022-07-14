@@ -7,14 +7,54 @@ The library provides it's own parser implementations, but also exposes the Antlr
 and interfaces should you want your own implementations.
 
 
-## Basic Usage
-
-### Syslog RFC 5424
-A simple, default usage to parser a Syslog RFC 5424 log line is to build a SyslogParser
-with the defaults, and pass it the line.  The `SyslogParserBuilder` defaults to `SyslogSpecification.RFC_5424` so it doesn't have to be explicitly set by `.forSpecification()`.
+## Simple Usage
+Simple Syslog provids a `Simple` class with methods for parsing syslog with the default options and as
+little configuration as possible.
 
 ```java
- SyslogParser parser = new SyslogParserBuilder().build();
+  Map<String, Object> = Simple.simpleNested5424(syslogLine);
+  Map<String, String> = Simple.simpleFlat5424(syslogLine);
+```
+Calls exist for using Readers and Consumers with the default options
+
+The default options for RFC 5424:
+- No Deviations
+- OMIT policy for Nils
+- Default KeyProvider
+
+The default options for RFC 3164:
+- No Deviations
+- Default KeyProvider
+
+In general, there are Simple calls for almost all the SyslogParser interface calls described below.
+
+## Slightly less simple usage
+Simple Syslog aims to provide syslog parsing that allows callers to handle syslog in the least restrictive
+way.  
+
+The syslog parsers do not build objects from syslog string, they call the provided syslog builder with the message
+parts.  This allows for custom object building.
+
+The default syslog builders provided allow specialization of Allowed Deviation, how to produce names for message parts,
+and how to handle Nils in RFC 5424 messages.
+
+Custom SyslogBuilds can use these or other methods to help build their objects as well.
+see `Default3164MessageHandler`, `Flat5424MessageHandler`, and `MapOfMaps5424MessageHandler`
+
+Parsing any Syslog with the lower leve (non `Simple`) apis requires using the `SyslogParserBuilder`
+to build a SyslogParser accoring to the `SyslogSpecification` you desire, and with a `SyslogBuilder` implemenation
+you provide, either from the provided classes or your own.
+
+The SyslogParser is generically typed, so you must know the type that any implementation of `SyslogBuilder` returns.
+
+The `SyslogParserBuilder` defaults to `SyslogSpecification.RFC_5424` so it doesn't have to be explicitly set by `.forSpecification()`.
+
+Please see the ample unit tests for examples of all the options.
+
+### Syslog RFC 5424
+
+```java
+ SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
  Map<String,Object> syslogMap = parser.parseLine(syslogLine);
 
 ```
@@ -24,7 +64,7 @@ a `Reader` and all `parseLines`
 
 ```java
   List<Map<String,Object>> syslogMapList = null;
-  SyslogParser parser = new SyslogParserBuilder().build();
+  SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
   try (Reader reader = new BufferedReader(new FileReader(new File(fileName)))) {
       syslogMapList = parser.parseLines(reader);
   }
@@ -35,8 +75,8 @@ Both `parseLine` and `parseLines` also provide a functional interface if you pre
 Just pass a `Consumer` to the function.
 
 ```java
- SyslogParser parser = new SyslogParserBuilder().build();
- syslogMap = parser.parseLine(syslogLine, (syslogMap) -> {
+  SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
+  syslogMap = parser.parseLine(syslogLine, (syslogMap) -> {
    // do something with map
  });
 
@@ -44,7 +84,7 @@ Just pass a `Consumer` to the function.
 
 
 ```java
-  SyslogParser parser = new SyslogParserBuilder().build();
+  SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
   try (Reader reader = new BufferedReader(new FileReader(new File(fileName)))) {
       parser.parseLines(reader, (map) -> {
         // do something with each map
@@ -54,7 +94,7 @@ Just pass a `Consumer` to the function.
 ```
 
 ```java
- SyslogParser parser = new SyslogParserBuilder().build();
+  SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
   try (Reader reader = new BufferedReader(new FileReader(new File(fileName)))) {
       parser.parseLines(reader, (map) -> {
         // do something with each map
@@ -65,10 +105,10 @@ Just pass a `Consumer` to the function.
 ```
 #### Syslog RFC 3164
 A simple, default usage to parser a Syslog RFC 3164 log line is to build a SyslogParser
-with the defaults, and pass it the line.  Note that the `SyslogSpecification` is required for the builder to create the proper parser.
+with at least `SyslogSpecification` and `SyslogBuilder`.
 
 ```java
- SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+ SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String,String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(new Default3164MessageHandler()).build();
  Map<String,Object> syslogMap = parser.parseLine(syslogLine);
 
 ```
@@ -77,8 +117,8 @@ To parse a number of Syslog lines together, say from a file you would create
 a `Reader` and all `parseLines`
 
 ```java
-  List<Map<String,Object>> syslogMapList = null;
-  SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+  List<Map<String,String>> syslogMapList = null;
+  SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String,String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(new Default3164MessageHandler()).build();
   try (Reader reader = new BufferedReader(new FileReader(new File(fileName)))) {
       syslogMapList = parser.parseLines(reader);
   }
@@ -89,7 +129,7 @@ Both `parseLine` and `parseLines` also provide a functional interface if you pre
 Just pass a `Consumer` to the function.
 
 ```java
- SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+ SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String,String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(new Default3164MessageHandler()).build();
  syslogMap = parser.parseLine(syslogLine, (syslogMap) -> {
    // do something with map
  });
@@ -98,7 +138,7 @@ Just pass a `Consumer` to the function.
 
 
 ```java
-  SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+  SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String,String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(new Default3164MessageHandler()).build();
   try (Reader reader = new BufferedReader(new FileReader(new File(fileName)))) {
       parser.parseLines(reader, (map) -> {
         // do something with each map
@@ -108,7 +148,7 @@ Just pass a `Consumer` to the function.
 ```
 
 ```java
-  SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+  SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String,String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(new Default3164MessageHandler()).build();
   try (Reader reader = new BufferedReader(new FileReader(new File(fileName)))) {
       parser.parseLines(reader, (map) -> {
         // do something with each map
@@ -130,12 +170,16 @@ Simple Syslog supports these messages with explicit specifications available.
 RFC6587 and RFC5424.
 
 ```java
-SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN).build();
+SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN).withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
 ```
 
 ### Options
 
-Besides setting the `SyslogSpecification` the `SyslogParserBuilder` supports options for changing the `AllowableVariations`, the `SyslogSpecifictation` and the `KeyProvider`.
+While the `SyslogParserBuilder` supports setting `SyslogSpecification`, the options 
+for changing the `AllowableVariations`, the `SyslogSpecifictation` and the `KeyProvider` are set on the
+provided `SyslogBuilder` implemenations.
+
+Callers may or may not use these in their `SyslogBuilder` implementations as well.
 
 ##### SyslogSpecification
 
@@ -186,7 +230,7 @@ The default `KeyProvider` : `DefaultKeyProvider` provides keys using the `Syslog
 
 ```
 
-A custom `KeyProvider` can be supplied to the `SyslogParserBuilder` if there is a different key strategy required.
+A custom `KeyProvider` can be supplied to the provided `SyslogBuilder` implemenations if there is a different key strategy required.
 Note that the keys are a superset of the syslog specifications.
 
 ##### NilPolicy
@@ -216,16 +260,8 @@ may be used to implement new parsers as well in the event that you prefer differ
 Implementors would then build their own parsers or builders etc.  In other words the use of this library would
 minimally be the Antlr classes alone.
 
-For example you would build a 'parser' that used your implementations, most likely implemented like this:
-
-```java
-    Rfc5424Lexer lexer = new Rfc5424Lexer(new ANTLRInputStream(syslogLine));
-    Rfc5424Parser parser = new Rfc5424Parser(new CommonTokenStream(lexer));
-    Rfc5424Listener listener = new MyCustomListener(keyProvider);
-    parser.addParseListener(listener);
-    Rfc5424Parser.Syslog_msgContext ctx = parser.syslog_msg();
-    return listener.getMyCustomResult();
-```
+For examples, see the implementations of `Rfc3164SyslogParser` and `Rfc5424SyslogParser` for examples of
+parser implementations as well as the `Syslog3164Listener` and `Syslog5424Listener` implementations.
 
 ### Questions
 

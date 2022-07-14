@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog-5424 authors
+ * Copyright 2018-2022 simple-syslog-5424 authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,15 @@
 
 package com.github.palindromicity.syslog.dsl;
 
-import java.util.EnumSet;
-import java.util.Map;
-
 import com.github.palindromicity.syslog.AllowableDeviations;
+import com.github.palindromicity.syslog.Default3164MessageHandler;
 import com.github.palindromicity.syslog.DefaultKeyProvider;
+import com.github.palindromicity.syslog.KeyProvider;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164Lexer;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164Parser;
-import org.antlr.v4.runtime.ANTLRFileStream;
+import java.util.EnumSet;
+import java.util.Map;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Assert;
 import org.junit.Test;
@@ -85,9 +86,8 @@ public class Syslog3164ListenerTest {
   private static final String expectedSeverityTwo = "5";
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testAllPresent() throws Exception {
-    Map<String, Object> map = handleFile("src/test/resources/logs/3164/single_ise.txt");
+    Map<String, String> map = handleFile("src/test/resources/logs/3164/single_ise.txt");
     Assert.assertEquals(expectedMessageOne, map.get(SyslogFieldKeys.MESSAGE.getField()));
     Assert.assertEquals(expectedHostNameOne, map.get(SyslogFieldKeys.HEADER_HOSTNAME.getField()));
     Assert.assertEquals(expectedPriOne, map.get(SyslogFieldKeys.HEADER_PRI.getField()));
@@ -97,9 +97,8 @@ public class Syslog3164ListenerTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testAllPresentOldDate() throws Exception {
-    Map<String, Object> map = handleFile("src/test/resources/logs/3164/single_ise_old_date.txt");
+    Map<String, String> map = handleFile("src/test/resources/logs/3164/single_ise_old_date.txt");
     Assert.assertEquals(expectedMessageTwo, map.get(SyslogFieldKeys.MESSAGE.getField()));
     Assert.assertEquals(expectedHostNameTwo, map.get(SyslogFieldKeys.HEADER_HOSTNAME.getField()));
     Assert.assertEquals(expectedPriTwo, map.get(SyslogFieldKeys.HEADER_PRI.getField()));
@@ -109,15 +108,13 @@ public class Syslog3164ListenerTest {
   }
 
   @Test(expected = ParseException.class)
-  @SuppressWarnings("unchecked")
   public void testWithDeviation() throws Exception {
-    Map<String, Object> map = handleFile("src/test/resources/logs/3164/single_ise_deviation.txt");
+    Map<String, String> map = handleFile("src/test/resources/logs/3164/single_ise_deviation.txt");
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testWithDeviationAllowed() throws Exception {
-    Map<String, Object> map = handleFile("src/test/resources/logs/3164/single_ise_deviation.txt",
+    Map<String, String> map = handleFile("src/test/resources/logs/3164/single_ise_deviation.txt",
         EnumSet.of(AllowableDeviations.PRIORITY));
     Assert.assertEquals(expectedMessageOne, map.get(SyslogFieldKeys.MESSAGE.getField()));
     Assert.assertEquals(expectedHostNameOne, map.get(SyslogFieldKeys.HEADER_HOSTNAME.getField()));
@@ -125,18 +122,20 @@ public class Syslog3164ListenerTest {
     Assert.assertEquals(expectedTimestampOne, map.get(SyslogFieldKeys.HEADER_TIMESTAMP.getField()));
   }
 
-  private static Map<String, Object> handleFile(String fileName) throws Exception {
+  private static Map<String, String> handleFile(String fileName) throws Exception {
     return handleFile(fileName, EnumSet.of(AllowableDeviations.NONE));
   }
 
-  private static Map<String, Object> handleFile(String fileName, EnumSet<AllowableDeviations> deviations)
+  private static Map<String, String> handleFile(String fileName, EnumSet<AllowableDeviations> deviations)
       throws Exception {
-    Rfc3164Lexer lexer = new Rfc3164Lexer(new ANTLRFileStream(fileName));
+    Rfc3164Lexer lexer = new Rfc3164Lexer(CharStreams.fromFileName(fileName));
     Rfc3164Parser parser = new Rfc3164Parser(new CommonTokenStream(lexer));
-    Syslog3164Listener listener = new Syslog3164Listener(new DefaultKeyProvider(), deviations);
+    KeyProvider keyProvider = new DefaultKeyProvider();
+    Default3164MessageHandler builder = new Default3164MessageHandler(keyProvider, deviations);
+    Syslog3164Listener listener = new Syslog3164Listener(builder);
     parser.addParseListener(listener);
     Rfc3164Parser.Syslog_msgContext ctx = parser.syslog_msg();
-    return listener.getMessageMap();
+    return builder.produce();
   }
 
 }

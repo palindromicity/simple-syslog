@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog authors
+ * Copyright 2018-2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,53 +21,42 @@ import com.github.palindromicity.syslog.dsl.Syslog5424Listener;
 import com.github.palindromicity.syslog.dsl.generated.Rfc5424Lexer;
 import com.github.palindromicity.syslog.dsl.generated.Rfc5424Parser;
 import com.github.palindromicity.syslog.util.Validate;
-import java.util.EnumSet;
-import java.util.Map;
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
  * {@link SyslogParser} for valid RFC 5424 syslog.
  */
-class Rfc5424SyslogParser extends AbstractSyslogParser {
+class Rfc5424SyslogParser<T> extends AbstractSyslogParser<T> {
 
   SyslogSpecification specification;
 
   /**
    * Create a new {@code Rfc5424SyslogParser}.
    *
-   * @param keyProvider {@link com.github.palindromicity.syslog.KeyProvider} to provide keys for
-   *                     the {@link Syslog5424Listener}.
+   * @param syslogBuilder {@link SyslogMessageConsumer} used gather data
    */
-  Rfc5424SyslogParser(KeyProvider keyProvider) {
-    this(keyProvider, null, null, EnumSet.of(AllowableDeviations.NONE),
+  Rfc5424SyslogParser(AbstractSyslogMessageHandler<T> syslogBuilder) {
+    this(syslogBuilder,
         SyslogSpecification.RFC_5424);
   }
 
-  Rfc5424SyslogParser(KeyProvider keyProvider, NilPolicy nilPolicy,
-                      StructuredDataPolicy structuredDataPolicy) {
-    this(keyProvider, nilPolicy, structuredDataPolicy, EnumSet.of(AllowableDeviations.NONE),
-        SyslogSpecification.RFC_5424);
-  }
-
-  Rfc5424SyslogParser(KeyProvider keyProvider, NilPolicy nilPolicy,
-                      StructuredDataPolicy structuredDataPolicy,
-                      EnumSet<AllowableDeviations> deviations,
+  Rfc5424SyslogParser(AbstractSyslogMessageHandler<T> syslogBuilder,
                       SyslogSpecification specification) {
-    super(keyProvider, deviations, nilPolicy, structuredDataPolicy);
+    super(syslogBuilder);
     this.specification = specification;
   }
 
   @Override
-  public Map<String, Object> parseLine(String syslogLine) {
+  public T parseLine(String syslogLine) {
     Validate.notBlank(syslogLine, "syslogLine");
-    Rfc5424Lexer lexer = new Rfc5424Lexer(new ANTLRInputStream(syslogLine));
+    Rfc5424Lexer lexer = new Rfc5424Lexer(CharStreams.fromString(syslogLine));
     lexer.removeErrorListeners();
     lexer.addErrorListener(new DefaultErrorListener());
     Rfc5424Parser parser = new Rfc5424Parser(new CommonTokenStream(lexer));
-    Syslog5424Listener listener = new Syslog5424Listener(getKeyProvider(), getNilPolicy(),
-        getStructuredDataPolicy(),
-        getDeviations());
+    getSyslogBuilder().start();
+    Syslog5424Listener listener =
+        new Syslog5424Listener(getSyslogBuilder());
     parser.addParseListener(listener);
     parser.removeErrorListeners();
     parser.addErrorListener(new DefaultErrorListener());
@@ -78,6 +67,7 @@ class Rfc5424SyslogParser extends AbstractSyslogParser {
     } else if (specification == SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN) {
       parser.heroku_https_log_drain();
     }
-    return listener.getMessageMap();
+    getSyslogBuilder().complete();
+    return getSyslogBuilder().produce();
   }
 }

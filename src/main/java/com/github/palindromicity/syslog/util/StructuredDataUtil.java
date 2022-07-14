@@ -12,12 +12,13 @@ public class StructuredDataUtil {
 
   /**
    * Unflattens a flat map such that it contains any nested maps required.
+   *
    * @param flattenedMap the map to unflatten
    * @param keyProvider the key provider to use
    * @return Map
    */
   @SuppressWarnings("unchecked")
-  public static Map<String, Object> unFlattenStructuredData(Map<String, Object> flattenedMap,
+  public static Map<String, Object> unFlattenStructuredData(Map<String, String> flattenedMap,
                                                             KeyProvider keyProvider) {
     Validate.notNull(keyProvider, "keyProvider");
     Validate.notNull(flattenedMap, "flattenedMap");
