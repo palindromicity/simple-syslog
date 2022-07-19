@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog-5424 authors
+ * Copyright 2018-2022 simple-syslog-5424 authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,16 +79,16 @@ public class Rfc3164SyslogParserTest extends AbstractRfc3164SyslogParserTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testParseOctetLine() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_6587_3164).build();
-    Map<String, Object> map = handleLine(OCTET_MSG, parser);
+
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String, String>>().forSpecification(SyslogSpecification.RFC_6587_3164).withSyslogBuilder(new Default3164MessageHandler()).build();
+    Map<String, String> map = handleLine(OCTET_MSG, parser);
     Assert.assertNotNull(map);
   }
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testParseLine() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
-    Map<String, Object> map = handleLine(readFileToString("src/test/resources/logs/3164/single_ise.txt"), parser);
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String,String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(new Default3164MessageHandler()).build();
+    Map<String, String> map = handleLine(readFileToString("src/test/resources/logs/3164/single_ise.txt"), parser);
     Assert.assertEquals(expectedMessageOne, map.get(SyslogFieldKeys.MESSAGE.getField()));
     Assert.assertEquals(expectedHostNameOne, map.get(SyslogFieldKeys.HEADER_HOSTNAME.getField()));
     Assert.assertEquals(expectedPriOne, map.get(SyslogFieldKeys.HEADER_PRI.getField()));
@@ -99,9 +99,10 @@ public class Rfc3164SyslogParserTest extends AbstractRfc3164SyslogParserTest {
 
 
   @Test
-  @SuppressWarnings("unchecked")
   public void testParseLineConsumer() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+    Default3164MessageHandler builder = new Default3164MessageHandler();
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String, String>>().forSpecification(SyslogSpecification.RFC_3164)
+        .withSyslogBuilder(builder).build();
     handleLine(readFileToString("src/test/resources/logs/3164/single_ise.txt"), parser, (map) -> {
       Assert.assertEquals(expectedMessageOne, map.get(SyslogFieldKeys.MESSAGE.getField()));
       Assert.assertEquals(expectedHostNameOne, map.get(SyslogFieldKeys.HEADER_HOSTNAME.getField()));
@@ -116,7 +117,7 @@ public class Rfc3164SyslogParserTest extends AbstractRfc3164SyslogParserTest {
   public void testParseLinesConsumerAndErrorConsumer() throws Exception {
     final AtomicInteger mapCount = new AtomicInteger();
     final AtomicInteger errorCount = new AtomicInteger();
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String,String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(new Default3164MessageHandler()).build();
     handleFile("src/test/resources/logs/3164/many_with_errors.txt", parser, (map) -> mapCount.incrementAndGet(),
         (line, throwable) -> errorCount.incrementAndGet());
     Assert.assertEquals(3, mapCount.get());
@@ -125,29 +126,34 @@ public class Rfc3164SyslogParserTest extends AbstractRfc3164SyslogParserTest {
 
   @Test
   public void testParseLines() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
-    List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/3164/many_ise.txt", parser);
+    Default3164MessageHandler builder = new Default3164MessageHandler();
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String, String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(builder).build();
+    List<Map<String, String>> mapList = handleFile("src/test/resources/logs/3164/many_ise.txt", parser);
     Assert.assertEquals(308, mapList.size());
   }
 
   @Test
   public void testParseLinesMixDates() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
-    List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/3164/two_ise_mix_date.txt", parser);
+    Default3164MessageHandler builder = new Default3164MessageHandler();
+    SyslogParser<Map<String,String>> parser = new SyslogParserBuilder<Map<String, String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(builder).build();
+    List<Map<String, String>> mapList = handleFile("src/test/resources/logs/3164/two_ise_mix_date.txt", parser);
     Assert.assertEquals(2, mapList.size());
   }
 
   @Test
   public void testParseLinesDeviations() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164)
-        .withDeviations(EnumSet.of(AllowableDeviations.PRIORITY)).build();
-    List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/3164/many_ise_deviations.txt", parser);
+    Default3164MessageHandler
+        builder = new Default3164MessageHandler(new DefaultKeyProvider(), EnumSet.of(AllowableDeviations.PRIORITY));
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String, String>>().forSpecification(SyslogSpecification.RFC_3164)
+        .withSyslogBuilder(builder).build();
+    List<Map<String, String>> mapList = handleFile("src/test/resources/logs/3164/many_ise_deviations.txt", parser);
     Assert.assertEquals(308, mapList.size());
   }
 
   @Test
   public void testParseLinesConsumer() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+    Default3164MessageHandler builder = new Default3164MessageHandler();
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String, String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(builder).build();
     final AtomicInteger count = new AtomicInteger();
     handleFile("src/test/resources/logs/3164/many_ise.txt", parser, (map) -> {
       count.incrementAndGet();
@@ -158,7 +164,8 @@ public class Rfc3164SyslogParserTest extends AbstractRfc3164SyslogParserTest {
 
   @Test
   public void testParseLinesConsumerMixDates() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+    Default3164MessageHandler builder = new Default3164MessageHandler();
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String, String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(builder).build();
     final AtomicInteger count = new AtomicInteger();
     handleFile("src/test/resources/logs/3164/two_ise_mix_date.txt", parser, (map) -> {
       count.incrementAndGet();
@@ -170,14 +177,16 @@ public class Rfc3164SyslogParserTest extends AbstractRfc3164SyslogParserTest {
   @Test(expected = ParseException.class)
   @SuppressWarnings("unchecked")
   public void testInvalidLine() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
-    Map<String, Object> map = handleLine("localhost some body of the message", parser);
+    Default3164MessageHandler builder = new Default3164MessageHandler();
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String, String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(builder).build();
+    Map<String, String> map = handleLine("localhost some body of the message", parser);
   }
 
   @Test(expected = ParseException.class)
   @SuppressWarnings("unchecked")
   public void testInvalidLineConsumer() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164).build();
+    Default3164MessageHandler builder = new Default3164MessageHandler();
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String, String>>().forSpecification(SyslogSpecification.RFC_3164).withSyslogBuilder(builder).build();
     handleLine("localhost some body of the message", parser, (map) -> {
       Assert.fail();
     });

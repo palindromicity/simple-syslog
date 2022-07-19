@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog authors
+ * Copyright 2018-2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,11 @@
 
 package com.github.palindromicity.syslog.dsl;
 
-import com.github.palindromicity.syslog.AllowableDeviations;
 import com.github.palindromicity.syslog.KeyProvider;
+import com.github.palindromicity.syslog.SyslogMessageConsumer;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164BaseListener;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164Parser;
 import com.github.palindromicity.syslog.util.Validate;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Simple implementation of {@link Rfc3164BaseListener}.
@@ -33,88 +29,61 @@ import java.util.Map;
  * the map.
  * </p>
  */
-public class Syslog3164Listener extends Rfc3164BaseListener implements MessageMapProvider {
+public class Syslog3164Listener extends Rfc3164BaseListener {
 
   /**
-   * {@link KeyProvider} that provides our key names.
+   * {@link SyslogMessageConsumer} for storing results.
    */
-  private KeyProvider keyProvider;
+  SyslogMessageConsumer syslogBuilder;
 
-  /**
-   * {@link AllowableDeviations} for parsing and errors.
-   */
-  private EnumSet<AllowableDeviations> deviations;
-
-  /**
-   * The {@code Map} used to store our syslog values.
-   */
-  private final Map<String, Object> msgMap = new HashMap<>();
 
   /**
    * Create a new {@code Syslog5424Listener}.
    *
-   * @param keyProvider {@link KeyProvider} used for map insertion.
-   * @param deviations  {@link AllowableDeviations} for parsing
+   * @param syslogBuilder {@link SyslogMessageConsumer} for parsing
    */
-  public Syslog3164Listener(KeyProvider keyProvider, EnumSet<AllowableDeviations> deviations) {
-    Validate.notNull(keyProvider, "keyProvider");
-    this.keyProvider = keyProvider;
-    this.deviations = deviations;
-  }
-
-  /**
-   * Returns the {@code Map} of syslog values with the keys as provided by the {@link KeyProvider}.
-   * The map returned is unmodifiable.
-   *
-   * @return unmodifiable {@code Map}
-   */
-  @Override
-  public Map<String, Object> getMessageMap() {
-    if (msgMap.get(keyProvider.getHeaderPriority()) == null && !deviations
-        .contains(AllowableDeviations.PRIORITY)) {
-      throw new ParseException("Priority missing with strict parsing");
-    }
-    return Collections.unmodifiableMap(msgMap);
+  public Syslog3164Listener(SyslogMessageConsumer syslogBuilder) {
+    this.syslogBuilder = syslogBuilder;
   }
 
 
   @Override
   public void exitHeaderPriorityValue(Rfc3164Parser.HeaderPriorityValueContext ctx) {
     String priority = ctx.getText();
-    msgMap.put(keyProvider.getHeaderPriority(), priority);
+    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_PRI, priority);
     int pri = Integer.parseInt(priority);
     int sev = pri % 8;
     int facility = pri / 8;
-    msgMap.put(keyProvider.getHeaderSeverity(), String.valueOf(sev));
-    msgMap.put(keyProvider.getHeaderFacility(), String.valueOf(facility));
+    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_PRI_SEVERITY, String.valueOf(sev));
+    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_PRI_FACILITY, String.valueOf(facility));
   }
 
   @Override
   public void exitHeaderHostName(Rfc3164Parser.HeaderHostNameContext ctx) {
-    msgMap.put(keyProvider.getHeaderHostName(), ctx.getText());
+    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_HOSTNAME, ctx.getText());
   }
 
   @Override
   public void exitHeaderTimeStamp(Rfc3164Parser.HeaderTimeStampContext ctx) {
-    msgMap.put(keyProvider.getHeaderTimeStamp(),
+    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_TIMESTAMP,
         ctx.full_date().getText() + "T" + ctx.full_time().getText());
   }
 
   @Override
   public void exitHeaderTimeStamp3164(Rfc3164Parser.HeaderTimeStamp3164Context ctx) {
-    msgMap.put(keyProvider.getHeaderTimeStamp(), String
+    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_TIMESTAMP, String
         .format("%s%s %s", ctx.date_month_short().getText(), ctx.date_day_short().getText(),
             ctx.partial_time().getText()));
   }
 
   @Override
   public void exitMsg_any(Rfc3164Parser.Msg_anyContext ctx) {
-    msgMap.put(keyProvider.getMessage(), ctx.getText().trim());
+    syslogBuilder.consumeValue(SyslogFieldKeys.MESSAGE, ctx.getText().trim());
   }
 
   @Override
   public void exitMsg_utf8(Rfc3164Parser.Msg_utf8Context ctx) {
-    msgMap.put(keyProvider.getMessage(), ctx.getText().trim());
+    syslogBuilder.consumeValue(SyslogFieldKeys.MESSAGE, ctx.getText().trim());
   }
 }
 

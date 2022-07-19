@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog authors
+ * Copyright 2018-2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,22 +18,24 @@ package com.github.palindromicity.syslog;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.EnumSet;
 
+import java.util.Map;
 import org.junit.Test;
 
 public class SyslogParserBuilderTest {
 
   @Test
   public void testWithSpecification() {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_3164)
-        .withDeviations(EnumSet.of(AllowableDeviations.NONE)).build();
+    MapOfMaps5424MessageHandler
+        builder = new MapOfMaps5424MessageHandler(new DefaultKeyProvider(), null);
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().forSpecification(SyslogSpecification.RFC_3164)
+        .withSyslogBuilder(builder).build();
     assertTrue(parser.getClass() == Rfc3164SyslogParser.class);
   }
 
   @Test
   public void testNoSpecification() {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     assertTrue(parser.getClass() == Rfc5424SyslogParser.class);
   }
 }

@@ -17,17 +17,14 @@
 package com.github.palindromicity.syslog;
 
 /**
- * Policy for the handling of StructuredData.
+ * Interface for classes that produce Message Objects.
  */
-public enum StructuredDataPolicy {
+public interface SyslogMessageProducer<T> {
+
   /**
-   * The Structured Data will be flattened per the KeyProvider provided values.
+   * Returns a {@code T}.
+   *
+   * @return {@code T}
    */
-  FLATTEN,
-  /**
-   * The Structured Data will be returned as a Map field named structuredData.
-   * Each map entry will have the value of the Structured Data ID, and a value
-   * of a map of each element param name and value
-   */
-  MAP_OF_MAPS
+  T produce();
 }

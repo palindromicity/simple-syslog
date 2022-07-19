@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog authors
+ * Copyright 2018-2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,7 +86,8 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
 
   @Test
   public void testParseOctetLine() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.RFC_6587_5424).build();
+    MapOfMaps5424MessageHandler builder = new MapOfMaps5424MessageHandler();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String,Object>>().forSpecification(SyslogSpecification.RFC_6587_5424).withSyslogBuilder(builder).build();
     Map<String, Object> map = handleLine(OCTET_MSG, parser);
     Assert.assertNotNull(map);
     Assert.assertEquals("40", map.get(SyslogFieldKeys.HEADER_PRI.getField()));
@@ -100,7 +101,8 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testParseLine() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    MapOfMaps5424MessageHandler builder = new MapOfMaps5424MessageHandler();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(builder).build();
     Map<String, Object> map = handleLine(SYSLOG_LINE_ALL, parser);
     Assert.assertEquals(expectedVersion, map.get(SyslogFieldKeys.HEADER_VERSION.getField()));
     Assert.assertEquals(expectedMessage, map.get(SyslogFieldKeys.MESSAGE.getField()));
@@ -114,7 +116,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
     Assert.assertEquals(expectedMessageId, map.get(SyslogFieldKeys.HEADER_MSGID.getField()));
 
     // structured data
-    Map<String, Object> structured = StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+    Map<String, Object> structured = (Map<String, Object>)map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -137,7 +139,8 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testParseLineEscapedQuote() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    MapOfMaps5424MessageHandler builder = new MapOfMaps5424MessageHandler();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(builder).build();
     Map<String, Object> map = handleLine(SYSLOG_LINE_ESC_QUOTES, parser);
     Assert.assertEquals(expectedVersion, map.get(SyslogFieldKeys.HEADER_VERSION.getField()));
     Assert.assertEquals(expectedMessage, map.get(SyslogFieldKeys.MESSAGE.getField()));
@@ -151,7 +154,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
     Assert.assertEquals(expectedMessageId, map.get(SyslogFieldKeys.HEADER_MSGID.getField()));
 
     // structured data
-    Map<String, Object> structured = StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+    Map<String, Object> structured = (Map<String, Object>) map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -174,7 +177,8 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testParseLineEscapedSlash() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    MapOfMaps5424MessageHandler builder = new MapOfMaps5424MessageHandler();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(builder).build();
     Map<String, Object> map = handleLine(SYSLOG_LINE_ESC_SLASH, parser);
     Assert.assertEquals(expectedVersion, map.get(SyslogFieldKeys.HEADER_VERSION.getField()));
     Assert.assertEquals(expectedMessage, map.get(SyslogFieldKeys.MESSAGE.getField()));
@@ -188,7 +192,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
     Assert.assertEquals(expectedMessageId, map.get(SyslogFieldKeys.HEADER_MSGID.getField()));
 
     // structured data
-    Map<String, Object> structured = StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+    Map<String, Object> structured = (Map<String, Object>) map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -211,7 +215,8 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testParseLineEscapedRightBracket() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    MapOfMaps5424MessageHandler builder = new MapOfMaps5424MessageHandler();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(builder).build();
     Map<String, Object> map = handleLine(SYSLOG_LINE_ESC_RIGHT_BRACKET, parser);
     Assert.assertEquals(expectedVersion, map.get(SyslogFieldKeys.HEADER_VERSION.getField()));
     Assert.assertEquals(expectedMessage, map.get(SyslogFieldKeys.MESSAGE.getField()));
@@ -225,7 +230,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
     Assert.assertEquals(expectedMessageId, map.get(SyslogFieldKeys.HEADER_MSGID.getField()));
 
     // structured data
-    Map<String, Object> structured = StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+    Map<String, Object> structured = (Map<String, Object>) map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -249,7 +254,8 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testParseLineNoMessage() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    MapOfMaps5424MessageHandler builder = new MapOfMaps5424MessageHandler();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(builder).build();
     // parse with one SD
     Map<String, Object> map = handleLine(SYSLOG_LINE_NO_MSG, parser);
     Assert.assertEquals(expectedVersion, map.get(SyslogFieldKeys.HEADER_VERSION.getField()));
@@ -264,7 +270,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
     Assert.assertEquals(expectedMessageId, map.get(SyslogFieldKeys.HEADER_MSGID.getField()));
 
     // structured data
-    Map<String, Object> structured = StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+    Map<String, Object> structured = (Map<String, Object>) map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -289,7 +295,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
     Assert.assertEquals(expectedMessageId, map.get(SyslogFieldKeys.HEADER_MSGID.getField()));
 
     // structured data
-    structured = StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+    structured = (Map<String, Object>) map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -313,8 +319,9 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testParseLineConsumer() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
-    handleLine(SYSLOG_LINE_ALL, parser, (map) -> {
+    Flat5424MessageHandler builder = new Flat5424MessageHandler();
+    SyslogParser<Map<String, String>> parser = new SyslogParserBuilder<Map<String, String>>().withSyslogBuilder(builder).build();
+    handleFlatLine(SYSLOG_LINE_ALL, parser, (map) -> {
       Assert.assertEquals(expectedVersion, map.get(SyslogFieldKeys.HEADER_VERSION.getField()));
       Assert.assertEquals(expectedMessage, map.get(SyslogFieldKeys.MESSAGE.getField()));
       Assert.assertEquals(expectedAppName, map.get(SyslogFieldKeys.HEADER_APPNAME.getField()));
@@ -329,7 +336,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
       // structured data
       Map<String, Object> structured = StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
       Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
-      Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
+      Map<String, String> example1 = (Map<String, String>) structured.get("exampleSDID@32473");
       Assert.assertTrue(example1.containsKey("iut"));
       Assert.assertTrue(example1.containsKey("eventSource"));
       Assert.assertTrue(example1.containsKey("eventID"));
@@ -352,7 +359,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   public void testParseLinesConsumerAndErrorConsumer() throws Exception {
     final AtomicInteger mapCount = new AtomicInteger();
     final AtomicInteger errorCount = new AtomicInteger();
-    SyslogParser parser = new SyslogParserBuilder().build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     handleFile("src/test/resources/logs/5424/log_all_with_errors.txt", parser, (map) -> mapCount.incrementAndGet(),
         (line, throwable) -> errorCount.incrementAndGet());
     Assert.assertEquals(1, mapCount.get());
@@ -361,14 +368,16 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
 
   @Test
   public void testParseLines() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_all.txt", parser);
     Assert.assertEquals(1, mapList.size());
   }
 
   @Test
   public void testBomParsing() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().withNilPolicy(NilPolicy.OMIT).withDeviations( EnumSet.of(AllowableDeviations.PRIORITY)).withStructuredDataPolicy(StructuredDataPolicy.MAP_OF_MAPS).build();
+    MapOfMaps5424MessageHandler
+        builder = new MapOfMaps5424MessageHandler(new DefaultKeyProvider(), NilPolicy.OMIT, EnumSet.of(AllowableDeviations.PRIORITY));
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(builder).build();
     List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_with_bom.txt", parser);
     Assert.assertEquals(1, mapList.size());
   }
@@ -376,7 +385,9 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
   //log_utf8_umlauts.txt
   @Test
   public void testBomParsingUmlauts() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().withNilPolicy(NilPolicy.OMIT).withDeviations( EnumSet.of(AllowableDeviations.PRIORITY)).withStructuredDataPolicy(StructuredDataPolicy.MAP_OF_MAPS).build();
+    MapOfMaps5424MessageHandler
+        builder = new MapOfMaps5424MessageHandler(new DefaultKeyProvider(), NilPolicy.OMIT, EnumSet.of(AllowableDeviations.PRIORITY));
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(builder).build();
     List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_utf8_umlauts.txt", parser);
     Assert.assertEquals(1, mapList.size());
     Assert.assertTrue(mapList.get(0).get("syslog.message").toString().contains("äöü"));
@@ -384,28 +395,30 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
 
   @Test
   public void testParseLinesWithDashDefaultPolicy() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log.txt", parser);
     Assert.assertEquals(1, mapList.size());
   }
 
   @Test
   public void testParseLinesWithDashDashPolicy() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().withNilPolicy(NilPolicy.DASH).build();
+    MapOfMaps5424MessageHandler
+        builder = new MapOfMaps5424MessageHandler(new DefaultKeyProvider(), NilPolicy.DASH );
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(builder).build();
     List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log.txt", parser);
     Assert.assertEquals(1, mapList.size());
   }
 
   @Test
   public void testParseLinesMix() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_mix.txt", parser);
     Assert.assertEquals(3, mapList.size());
   }
 
   @Test
   public void testParseLinesConsumer() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     final AtomicInteger count = new AtomicInteger();
     handleFile("src/test/resources/logs/5424/log_all.txt",
         parser,
@@ -416,7 +429,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
 
   @Test
   public void testParseLinesConsumerMix() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     final AtomicInteger count = new AtomicInteger();
     handleFile("src/test/resources/logs/5424/log_mix.txt",
         parser,
@@ -427,13 +440,13 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
 
   @Test(expected = ParseException.class)
   public void testInvalidLine() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     handleLine("10 Oct 13 14:14:43 localhost some body of the message", parser);
   }
 
   @Test(expected = ParseException.class)
   public void testInvalidLineConsumer() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     handleLine("10 Oct 13 14:14:43 localhost some body of the message",
         parser,
         (map) -> Assert.fail());
@@ -441,7 +454,7 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
 
   @Test
   public void testParseLinesMissingStructure() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN).build();
+    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN).withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_missing_structure.txt",
       parser);
     Assert.assertEquals(1, mapList.size());

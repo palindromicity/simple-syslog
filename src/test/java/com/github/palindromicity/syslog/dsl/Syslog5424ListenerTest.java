@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog authors
+ * Copyright 2018-2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,15 @@ package com.github.palindromicity.syslog.dsl;
 
 import com.github.palindromicity.syslog.AllowableDeviations;
 import com.github.palindromicity.syslog.DefaultKeyProvider;
+import com.github.palindromicity.syslog.KeyProvider;
+import com.github.palindromicity.syslog.MapOfMaps5424MessageHandler;
 import com.github.palindromicity.syslog.NilPolicy;
 import com.github.palindromicity.syslog.StructuredDataPolicy;
 import com.github.palindromicity.syslog.dsl.generated.Rfc5424Lexer;
 import com.github.palindromicity.syslog.dsl.generated.Rfc5424Parser;
-import com.github.palindromicity.syslog.util.StructuredDataUtil;
 import java.util.EnumSet;
 import java.util.Map;
-import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Assert;
 import org.junit.Test;
@@ -67,7 +68,7 @@ public class Syslog5424ListenerTest {
 
     // structured data
     Map<String, Object> structured =
-        StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+        (Map<String, Object>)map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -181,7 +182,7 @@ public class Syslog5424ListenerTest {
 
     // structured data
     Map<String, Object> structured =
-        StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+        (Map<String, Object>) map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -217,8 +218,7 @@ public class Syslog5424ListenerTest {
     Assert.assertNull(map.get(SyslogFieldKeys.HEADER_MSGID.getField()));
 
     // structured data
-    Map<String, Object> structured =
-        StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+    Map<String, Object> structured = (Map<String, Object>)map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -254,8 +254,7 @@ public class Syslog5424ListenerTest {
     Assert.assertEquals("-", map.get(SyslogFieldKeys.HEADER_MSGID.getField()));
 
     // structured data
-    Map<String, Object> structured =
-        StructuredDataUtil.unFlattenStructuredData(map, new DefaultKeyProvider());
+    Map<String, Object> structured = (Map<String, Object>)map.get(new DefaultKeyProvider().getStructuredBase());
     Assert.assertTrue(structured.containsKey("exampleSDID@32473"));
     Map<String, Object> example1 = (Map<String, Object>) structured.get("exampleSDID@32473");
     Assert.assertTrue(example1.containsKey("iut"));
@@ -317,14 +316,16 @@ public class Syslog5424ListenerTest {
                                                 StructuredDataPolicy structuredDataPolicy,
                                                 EnumSet<AllowableDeviations> deviations)
       throws Exception {
-    Rfc5424Lexer lexer = new Rfc5424Lexer(new ANTLRFileStream(fileName));
+    Rfc5424Lexer lexer = new Rfc5424Lexer(CharStreams.fromFileName(fileName));
     Rfc5424Parser parser = new Rfc5424Parser(new CommonTokenStream(lexer));
+    KeyProvider keyProvider = new DefaultKeyProvider();
+    MapOfMaps5424MessageHandler
+        builder = new MapOfMaps5424MessageHandler(keyProvider, nilPolicy, deviations);
     Syslog5424Listener listener =
-        new Syslog5424Listener(new DefaultKeyProvider(), nilPolicy, structuredDataPolicy,
-            deviations);
+        new Syslog5424Listener(builder);
     parser.addParseListener(listener);
     Rfc5424Parser.Syslog_msgContext ctx = parser.syslog_msg();
-    return listener.getMessageMap();
+    return builder.produce();
   }
 
 }

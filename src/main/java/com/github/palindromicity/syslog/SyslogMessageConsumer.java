@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2022 simple-syslog authors
+ * Copyright 2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,27 @@
 
 package com.github.palindromicity.syslog;
 
+import com.github.palindromicity.syslog.dsl.SyslogFieldKeys;
+import java.util.Map;
+import java.util.function.Supplier;
+
 /**
- * Policy for the handling of StructuredData.
+ * SyslogMessageConsumer Interface.
+ *
+ * <p>SyslogMessageConsumer instances are called with data
+ * as it is parsed.</p>
  */
-public enum StructuredDataPolicy {
-  /**
-   * The Structured Data will be flattened per the KeyProvider provided values.
-   */
-  FLATTEN,
-  /**
-   * The Structured Data will be returned as a Map field named structuredData.
-   * Each map entry will have the value of the Structured Data ID, and a value
-   * of a map of each element param name and value
-   */
-  MAP_OF_MAPS
+public interface SyslogMessageConsumer {
+
+  void consumeValue(SyslogFieldKeys key, String value);
+
+  void consumeStructured(String id, Map<String, String> rawParameterMap);
+
+  void handleNil(SyslogFieldKeys key);
+
+  void start();
+
+  void complete();
+
+  void reset();
 }

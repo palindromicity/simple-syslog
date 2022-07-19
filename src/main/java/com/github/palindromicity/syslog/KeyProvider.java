@@ -1,5 +1,5 @@
 /*
- * Copyright 2018-2021 simple-syslog authors
+ * Copyright 2018-2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.github.palindromicity.syslog;
 
+import com.github.palindromicity.syslog.dsl.SyslogFieldKeys;
 import java.util.regex.Pattern;
 
 /**
@@ -23,6 +24,14 @@ import java.util.regex.Pattern;
  * Map keys used for Syslog message parts. Some keys only apply to certain RFCs
  */
 public interface KeyProvider {
+
+  /**
+   * Provides the key name for a given SyslogFieldKeys.
+   *
+   * @param key {@code SyslogFieldKeys}
+   * @return the key name corresponding to the passed SyslogFieldKeys
+   */
+  String get(SyslogFieldKeys key);
 
   /**
    * Provides the key name for the MSG @see <a href="https://tools.ietf.org/html/rfc5424#section-6.4">Section 6.4</a>.
