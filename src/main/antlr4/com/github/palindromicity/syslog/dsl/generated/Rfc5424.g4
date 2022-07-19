@@ -20,7 +20,7 @@ grammar Rfc5424;
 @header {
 //CHECKSTYLE:OFF
 /*
- * Copyright 2018-2021 simple-syslog authors
+ * Copyright 2018-2022 simple-syslog authors
  * All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
