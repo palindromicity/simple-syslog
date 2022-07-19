@@ -1,7 +1,6 @@
 // Generated from com/github/palindromicity/syslog/dsl/generated/Rfc3164.g4 by ANTLR 4.7.2
 package com.github.palindromicity.syslog.dsl.generated;
 
-
 //CHECKSTYLE:OFF
 /*
  * Copyright 2018-2022 simple-syslog authors
