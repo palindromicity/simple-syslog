@@ -22,7 +22,10 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
+@NullMarked
 public class Flat5424MessageHandler extends AbstractSyslogMessageHandler<Map<String, String>> {
   private static final String DASH = "-";
 
@@ -41,7 +44,7 @@ public class Flat5424MessageHandler extends AbstractSyslogMessageHandler<Map<Str
    */
   private final EnumSet<AllowableDeviations> deviations;
 
-  final Map<String, String> map = new HashMap<>();
+  final Map<String, @Nullable String> map = new HashMap<>();
 
 
   /**
@@ -57,7 +60,7 @@ public class Flat5424MessageHandler extends AbstractSyslogMessageHandler<Map<Str
    * @param keyProvider {@link KeyProvider} used for map insertion and lookup.
    * @param nilPolicy   {@link NilPolicy} used for handling nil values.
    */
-  public Flat5424MessageHandler(KeyProvider keyProvider, NilPolicy nilPolicy) {
+  public Flat5424MessageHandler(@Nullable KeyProvider keyProvider, @Nullable NilPolicy nilPolicy) {
     this(keyProvider, nilPolicy, EnumSet.of(AllowableDeviations.NONE));
   }
 
@@ -69,7 +72,7 @@ public class Flat5424MessageHandler extends AbstractSyslogMessageHandler<Map<Str
    *                    output.
    * @param deviations  {@link AllowableDeviations} used for handling abnormalities.
    */
-  public Flat5424MessageHandler(KeyProvider keyProvider, NilPolicy nilPolicy,
+  public Flat5424MessageHandler(@Nullable KeyProvider keyProvider, @Nullable NilPolicy nilPolicy,
                                 EnumSet<AllowableDeviations> deviations) {
     if (keyProvider == null) {
       this.keyProvider = new DefaultKeyProvider();
@@ -98,7 +101,7 @@ public class Flat5424MessageHandler extends AbstractSyslogMessageHandler<Map<Str
   }
 
   @Override
-  public Map<String, String> produce() {
+  public Map<String, @Nullable String> produce() {
     if (map.get(keyProvider.getHeaderPriority()) == null && !deviations
         .contains(AllowableDeviations.PRIORITY)) {
       throw new ParseException("Priority missing with strict parsing");

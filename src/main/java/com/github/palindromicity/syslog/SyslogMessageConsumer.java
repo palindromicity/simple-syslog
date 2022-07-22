@@ -19,6 +19,7 @@ package com.github.palindromicity.syslog;
 import com.github.palindromicity.syslog.dsl.SyslogFieldKeys;
 import java.util.Map;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * SyslogMessageConsumer Interface.
@@ -26,6 +27,7 @@ import java.util.function.Supplier;
  * <p>SyslogMessageConsumer instances are called with data
  * as it is parsed.</p>
  */
+@NullMarked
 public interface SyslogMessageConsumer {
 
   void consumeValue(SyslogFieldKeys key, String value);

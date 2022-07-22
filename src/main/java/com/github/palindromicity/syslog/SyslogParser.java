@@ -20,10 +20,12 @@ import java.io.Reader;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@code SyslogParser} defines an interface for classes that parse Syslog into {@code Map}.
  */
+@NullMarked
 public interface SyslogParser<T> {
 
   /**

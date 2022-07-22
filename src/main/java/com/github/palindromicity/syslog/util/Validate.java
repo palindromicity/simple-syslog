@@ -1,8 +1,12 @@
 package com.github.palindromicity.syslog.util;
 
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
+
 /**
  * Utility class to validate arguments and the like.
  */
+@NullMarked
 public class Validate {
 
   /**
@@ -12,7 +16,7 @@ public class Validate {
    * @param name   the name to use in the thrown exception
    * @throws IllegalArgumentException if object is null
    */
-  public static void notNull(Object object, String name) {
+  public static void notNull(@Nullable Object object, String name) {
     if (object == null) {
       throw new IllegalArgumentException(String.format("%s cannot be null", name));
     }
@@ -25,9 +29,12 @@ public class Validate {
    * @param name   the name to use in the thrown exception
    * @throws IllegalArgumentException if string is null or empty
    */
-  public static void notBlank(String string, String name) {
-    if (string == null || string.isEmpty() || string.trim().isEmpty()) {
+  public static void notBlank(@Nullable String string, String name) {
+    if (string == null) {
       throw new IllegalArgumentException(String.format("%s cannot be null", name));
+    }
+    if (string.isEmpty() || string.trim().isEmpty()) {
+      throw new IllegalArgumentException(String.format("%s cannot be empty", name));
     }
   }
 
