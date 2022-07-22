@@ -2,6 +2,7 @@ package com.github.palindromicity.syslog;
 
 import com.github.palindromicity.syslog.dsl.SyslogFieldKeys;
 import java.util.regex.Pattern;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * Default implementation of {@link KeyProvider}.
@@ -10,6 +11,7 @@ import java.util.regex.Pattern;
  * This implementation uses the {@link SyslogFieldKeys} for values.
  * </p>
  */
+@NullMarked
 public class DefaultKeyProvider implements KeyProvider {
 
   private static Pattern STRUCTURED_ELEMENT_ID_PNAME_PATTERN = Pattern

@@ -18,11 +18,13 @@ package com.github.palindromicity.syslog;
 
 import com.github.palindromicity.syslog.dsl.SyslogFieldKeys;
 import java.util.regex.Pattern;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@code KeyProvider} defines an interface for classes that can be used to provide
  * Map keys used for Syslog message parts. Some keys only apply to certain RFCs
  */
+@NullMarked
 public interface KeyProvider {
 
   /**

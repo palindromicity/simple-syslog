@@ -23,9 +23,10 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
+import org.jspecify.nullness.Nullable;
 
 public class MapOfMaps5424MessageHandler
-    extends AbstractSyslogMessageHandler<Map<String, Object>> {
+    extends AbstractSyslogMessageHandler<Map<String, @Nullable Object>> {
   private static final String DASH = "-";
 
   /**
@@ -43,7 +44,7 @@ public class MapOfMaps5424MessageHandler
    */
   private final EnumSet<AllowableDeviations> deviations;
 
-  final Map<String, Object> map = new HashMap<>();
+  final Map<String, @Nullable Object> map = new HashMap<>();
 
 
   /**
@@ -59,7 +60,8 @@ public class MapOfMaps5424MessageHandler
    * @param keyProvider {@link KeyProvider} used for map insertion and lookup.
    * @param nilPolicy   {@link NilPolicy} used for handling nil values.
    */
-  public MapOfMaps5424MessageHandler(KeyProvider keyProvider, NilPolicy nilPolicy) {
+  public MapOfMaps5424MessageHandler(@Nullable KeyProvider keyProvider,
+                                     @Nullable NilPolicy nilPolicy) {
     this(keyProvider, nilPolicy, EnumSet.of(AllowableDeviations.NONE));
   }
 
@@ -71,7 +73,8 @@ public class MapOfMaps5424MessageHandler
    *                    output.
    * @param deviations  {@link AllowableDeviations} used for handling abnormalities.
    */
-  public MapOfMaps5424MessageHandler(KeyProvider keyProvider, NilPolicy nilPolicy,
+  public MapOfMaps5424MessageHandler(@Nullable KeyProvider keyProvider,
+                                     @Nullable NilPolicy nilPolicy,
                                      EnumSet<AllowableDeviations> deviations) {
     if (keyProvider == null) {
       this.keyProvider = new DefaultKeyProvider();
@@ -100,7 +103,7 @@ public class MapOfMaps5424MessageHandler
   }
 
   @Override
-  public Map<String, Object> produce() {
+  public Map<String, @Nullable Object> produce() {
     if (map.get(keyProvider.getHeaderPriority()) == null && !deviations
         .contains(AllowableDeviations.PRIORITY)) {
       throw new ParseException("Priority missing with strict parsing");

@@ -16,9 +16,12 @@
 
 package com.github.palindromicity.syslog;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Builder for SyslogParser instances.
  */
+@NullMarked
 public class SyslogParserBuilder<T> {
   /**
    * The {@link SyslogMessageConsumer}.

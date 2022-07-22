@@ -16,9 +16,12 @@
 
 package com.github.palindromicity.syslog;
 
+import org.jspecify.nullness.NullMarked;
+
 /**
  * Interface for classes that produce Message Objects.
  */
+@NullMarked
 public interface SyslogMessageProducer<T> {
 
   /**

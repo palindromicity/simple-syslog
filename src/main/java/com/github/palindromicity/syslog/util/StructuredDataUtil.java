@@ -4,22 +4,26 @@ import com.github.palindromicity.syslog.KeyProvider;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
 /**
  * This utility class takes a 'flattened' syslog map and un-flattens it.
  */
+@NullMarked
 public class StructuredDataUtil {
 
   /**
    * Unflattens a flat map such that it contains any nested maps required.
    *
    * @param flattenedMap the map to unflatten
-   * @param keyProvider the key provider to use
+   * @param keyProvider  the key provider to use
    * @return Map
    */
   @SuppressWarnings("unchecked")
-  public static Map<String, Object> unFlattenStructuredData(Map<String, String> flattenedMap,
-                                                            KeyProvider keyProvider) {
+  public static Map<String, @Nullable Object> unFlattenStructuredData(
+      Map<String, @Nullable String> flattenedMap,
+      KeyProvider keyProvider) {
     Validate.notNull(keyProvider, "keyProvider");
     Validate.notNull(flattenedMap, "flattenedMap");
     boolean hasStructuredData = false;

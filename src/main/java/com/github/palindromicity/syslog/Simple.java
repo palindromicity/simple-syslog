@@ -4,7 +4,10 @@ import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
+@NullMarked
 public class Simple {
   /**
    * Parse a RFC 5424 {@code String} to a {@code Map<String, Object}.
@@ -18,9 +21,9 @@ public class Simple {
    * @return a {@code Map<String, Object}
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
    */
-  public static Map<String, Object> simpleNested5424(String line) {
-    SyslogParser<Map<String, Object>> parser =
-        new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(
+  public static Map<String, @Nullable Object> simpleNested5424(String line) {
+    SyslogParser<Map<String, @Nullable Object>> parser =
+        new SyslogParserBuilder<Map<String, @Nullable Object>>().withSyslogBuilder(
             new MapOfMaps5424MessageHandler()).build();
     return parser.parseLine(line);
   }
@@ -38,9 +41,10 @@ public class Simple {
    * @param consumer the {@code Consumer}
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
    */
-  public static void simpleNested5424(String line, Consumer<Map<String, Object>> consumer) {
-    SyslogParser<Map<String, Object>> parser =
-        new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(
+  public static void simpleNested5424(String line,
+                                      Consumer<Map<String, @Nullable Object>> consumer) {
+    SyslogParser<Map<String, @Nullable Object>> parser =
+        new SyslogParserBuilder<Map<String, @Nullable Object>>().withSyslogBuilder(
             new MapOfMaps5424MessageHandler()).build();
     parser.parseLine(line, consumer);
   }
@@ -59,9 +63,9 @@ public class Simple {
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
    * @throws IllegalArgumentException                            if reader is null
    */
-  public static List<Map<String, Object>> simpleNested5424(Reader reader) {
-    SyslogParser<Map<String, Object>> parser =
-        new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(
+  public static List<Map<String, @Nullable Object>> simpleNested5424(Reader reader) {
+    SyslogParser<Map<String, @Nullable Object>> parser =
+        new SyslogParserBuilder<Map<String, @Nullable Object>>().withSyslogBuilder(
             new MapOfMaps5424MessageHandler()).build();
     return parser.parseLines(reader);
   }
@@ -80,9 +84,10 @@ public class Simple {
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
    * @throws IllegalArgumentException                            if reader or consumer are null
    */
-  public static void simpleNested5424(Reader reader, Consumer<Map<String, Object>> consumer) {
-    SyslogParser<Map<String, Object>> parser =
-        new SyslogParserBuilder<Map<String, Object>>().withSyslogBuilder(
+  public static void simpleNested5424(Reader reader,
+                                      Consumer<Map<String, @Nullable Object>> consumer) {
+    SyslogParser<Map<String, @Nullable Object>> parser =
+        new SyslogParserBuilder<Map<String, @Nullable Object>>().withSyslogBuilder(
             new MapOfMaps5424MessageHandler()).build();
     parser.parseLines(reader, consumer);
   }
@@ -99,9 +104,9 @@ public class Simple {
    * @return a {@code Map<String, Object>}
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
    */
-  public static Map<String, String> simpleFlat5424(String line) {
-    SyslogParser<Map<String, String>> parser =
-        new SyslogParserBuilder<Map<String, String>>().withSyslogBuilder(
+  public static Map<String, @Nullable String> simpleFlat5424(String line) {
+    SyslogParser<Map<String, @Nullable String>> parser =
+        new SyslogParserBuilder<Map<String, @Nullable String>>().withSyslogBuilder(
             new Flat5424MessageHandler()).build();
     return parser.parseLine(line);
   }
@@ -119,9 +124,9 @@ public class Simple {
    * @param consumer the {@code Consumer}
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
    */
-  public static void simpleFlat5424(String line, Consumer<Map<String, String>> consumer) {
-    SyslogParser<Map<String, String>> parser =
-        new SyslogParserBuilder<Map<String, String>>().withSyslogBuilder(
+  public static void simpleFlat5424(String line, Consumer<Map<String, @Nullable String>> consumer) {
+    SyslogParser<Map<String, @Nullable String>> parser =
+        new SyslogParserBuilder<Map<String, @Nullable String>>().withSyslogBuilder(
             new Flat5424MessageHandler()).build();
     parser.parseLine(line, consumer);
   }
@@ -140,9 +145,9 @@ public class Simple {
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
    * @throws IllegalArgumentException                            if reader is null
    */
-  public static List<Map<String, String>> simpleFlat5424(Reader reader) {
-    SyslogParser<Map<String, String>> parser =
-        new SyslogParserBuilder<Map<String, String>>().withSyslogBuilder(
+  public static List<Map<String, @Nullable String>> simpleFlat5424(Reader reader) {
+    SyslogParser<Map<String, @Nullable String>> parser =
+        new SyslogParserBuilder<Map<String, @Nullable String>>().withSyslogBuilder(
             new Flat5424MessageHandler()).build();
     return parser.parseLines(reader);
   }
@@ -162,9 +167,10 @@ public class Simple {
    * @throws com.github.palindromicity.syslog.dsl.ParseException if there is an error parsing
    * @throws IllegalArgumentException                            if reader or consumer are null
    */
-  public static void simpleFlat5424(Reader reader, Consumer<Map<String, String>> consumer) {
-    SyslogParser<Map<String, String>> parser =
-        new SyslogParserBuilder<Map<String, String>>().withSyslogBuilder(
+  public static void simpleFlat5424(Reader reader,
+                                    Consumer<Map<String, @Nullable String>> consumer) {
+    SyslogParser<Map<String, @Nullable String>> parser =
+        new SyslogParserBuilder<Map<String, @Nullable String>>().withSyslogBuilder(
             new Flat5424MessageHandler()).build();
     parser.parseLines(reader, consumer);
   }

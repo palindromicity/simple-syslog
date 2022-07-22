@@ -23,8 +23,10 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
+import org.jspecify.nullness.NullMarked;
+import org.jspecify.nullness.Nullable;
 
-
+@NullMarked
 public class Default3164MessageHandler
     extends AbstractSyslogMessageHandler<Map<String, String>> {
 
@@ -53,7 +55,7 @@ public class Default3164MessageHandler
    *
    * @param keyProvider {@link KeyProvider} used for map insertion and lookup.
    */
-  public Default3164MessageHandler(KeyProvider keyProvider) {
+  public Default3164MessageHandler(@Nullable KeyProvider keyProvider) {
     this(keyProvider, EnumSet.of(AllowableDeviations.NONE));
   }
 
@@ -63,7 +65,7 @@ public class Default3164MessageHandler
    * @param keyProvider {@link KeyProvider} used for map insertion.
    * @param deviations  {@link AllowableDeviations} used for handling abnormalities.
    */
-  public Default3164MessageHandler(KeyProvider keyProvider,
+  public Default3164MessageHandler(@Nullable KeyProvider keyProvider,
                                    EnumSet<AllowableDeviations> deviations) {
     if (keyProvider == null) {
       this.keyProvider = new DefaultKeyProvider();

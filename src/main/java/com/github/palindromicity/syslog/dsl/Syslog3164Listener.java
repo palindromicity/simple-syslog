@@ -20,7 +20,6 @@ import com.github.palindromicity.syslog.KeyProvider;
 import com.github.palindromicity.syslog.SyslogMessageConsumer;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164BaseListener;
 import com.github.palindromicity.syslog.dsl.generated.Rfc3164Parser;
-import com.github.palindromicity.syslog.util.Validate;
 
 /**
  * Simple implementation of {@link Rfc3164BaseListener}.

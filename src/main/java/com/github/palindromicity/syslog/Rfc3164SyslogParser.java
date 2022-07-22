@@ -23,10 +23,12 @@ import com.github.palindromicity.syslog.dsl.generated.Rfc3164Parser;
 import com.github.palindromicity.syslog.util.Validate;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@link SyslogParser} for valid RFC 3164 syslog.
  */
+@NullMarked
 class Rfc3164SyslogParser<T> extends AbstractSyslogParser<T> {
 
   SyslogSpecification specification;

@@ -23,10 +23,12 @@ import com.github.palindromicity.syslog.dsl.generated.Rfc5424Parser;
 import com.github.palindromicity.syslog.util.Validate;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.jspecify.nullness.NullMarked;
 
 /**
  * {@link SyslogParser} for valid RFC 5424 syslog.
  */
+@NullMarked
 class Rfc5424SyslogParser<T> extends AbstractSyslogParser<T> {
 
   SyslogSpecification specification;
