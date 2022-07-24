@@ -25,6 +25,16 @@ import java.util.Map;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
+/**
+ * The type Flat 5424 message handler.
+ *
+ * <p>This implementation of {@link AbstractSyslogMessageHandler} handles
+ * production of RFC 5424 Syslog Messages as a Map of String keys and String values.<\p>
+ *
+ * <p>If no {@link KeyProvider} is provided, the {@link DefaultKeyProvider} is used key names.</p>
+ *
+ * <p>If there are structured data elements, they are flattened using per {@link KeyProvider} implementation passed.<\p>
+ */
 @NullMarked
 public class Flat5424MessageHandler extends AbstractSyslogMessageHandler<Map<String, String>> {
   private static final String DASH = "-";
