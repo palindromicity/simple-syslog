@@ -1,6 +1,5 @@
 package com.github.palindromicity.syslog;
 
-import com.github.palindromicity.syslog.dsl.Syslog3164Listener;
 import com.github.palindromicity.syslog.util.Validate;
 import java.io.BufferedReader;
 import java.io.Reader;
@@ -10,6 +9,12 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import org.jspecify.nullness.NullMarked;
 
+/**
+ * The type Abstract syslog parser.
+ * Abstract base implementation of {@link SyslogParser}
+ *
+ * @param <T> the type parameter
+ */
 @NullMarked
 abstract class AbstractSyslogParser<T> implements SyslogParser<T> {
 

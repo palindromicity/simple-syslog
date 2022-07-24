@@ -22,10 +22,16 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 import org.jspecify.nullness.NullMarked;
 import org.jspecify.nullness.Nullable;
 
+/**
+ * The type Default 3164 message handler.
+ * This implementation of {@link AbstractSyslogMessageHandler} handles
+ * production of RFC 3164 Syslog Messages as a Map of String keys and String values.
+ *
+ * <p>If no {@link KeyProvider} is provided, the {@link DefaultKeyProvider} is used key names.</p>
+ */
 @NullMarked
 public class Default3164MessageHandler
     extends AbstractSyslogMessageHandler<Map<String, String>> {
@@ -33,13 +39,16 @@ public class Default3164MessageHandler
   /**
    * {@link KeyProvider} that provides our key names.
    */
-  private KeyProvider keyProvider;
+  private final KeyProvider keyProvider;
 
   /**
    * {@link AllowableDeviations} for parsing and errors.
    */
   private final EnumSet<AllowableDeviations> deviations;
 
+  /**
+   * The Map.
+   */
   final Map<String, String> map = new HashMap<>();
 
 
@@ -81,7 +90,6 @@ public class Default3164MessageHandler
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public void consumeStructured(String id, Map<String, String> rawParameterMap) {
   }
 

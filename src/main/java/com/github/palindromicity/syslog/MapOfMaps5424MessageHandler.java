@@ -22,9 +22,17 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 import org.jspecify.nullness.Nullable;
 
+/**
+ * The type Map of maps 5424 message handler.
+ * <p>This implementation of {@link AbstractSyslogMessageHandler} handles
+ * production of RFC 5424 Syslog Messages as a Map of String keys and Object values.<\p>
+ *
+ * <p>If no {@link KeyProvider} is provided, the {@link DefaultKeyProvider} is used key names.</p>
+ *
+ * <p>If there are structured data elements, they are stored as a inner Map named per {@link KeyProvider} implementation passed.<\p>
+ */
 public class MapOfMaps5424MessageHandler
     extends AbstractSyslogMessageHandler<Map<String, @Nullable Object>> {
   private static final String DASH = "-";
@@ -32,7 +40,7 @@ public class MapOfMaps5424MessageHandler
   /**
    * {@link KeyProvider} that provides our key names.
    */
-  private KeyProvider keyProvider;
+  private final KeyProvider keyProvider;
 
   /**
    * {@link NilPolicy} for parsing.
