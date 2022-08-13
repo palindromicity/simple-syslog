@@ -24,8 +24,8 @@ import org.jspecify.nullness.NullMarked;
 /**
  * SyslogMessageConsumer Interface.
  *
- * <p>SyslogMessageConsumer instances are called with data
- * as it is parsed.</p>
+ * SyslogMessageConsumer instances are called with data
+ * as it is parsed.
  */
 @NullMarked
 public interface SyslogMessageConsumer {

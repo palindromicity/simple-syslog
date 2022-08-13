@@ -28,15 +28,11 @@ import java.util.Map;
 
 /**
  * Simple implementation of {@link Rfc5424Listener}.
- * <p>
  * {@code Syslog5424Listener} populates a {@code Map} with the values parsed from a valid RFC 5424
  * syslog line.
  * Nil ('-') values are handled according the {@link NilPolicy}.
- * </p>
- * <p>
  * The {@code Syslog5424Listener} uses the provided {@link KeyProvider} when inserting items into
  * the map.
- * </p>
  */
 public class Syslog5424Listener extends Rfc5424BaseListener {
 

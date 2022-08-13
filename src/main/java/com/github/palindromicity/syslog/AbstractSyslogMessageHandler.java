@@ -20,8 +20,8 @@ package com.github.palindromicity.syslog;
 /**
  * Abstract base class for handling consumption of syslog messages and productions of
  * type T from those messages.
- * <p>This abstract class joins {@link SyslogMessageConsumer} and {@link SyslogMessageProducer}
- * interfaces.</p>
+ * This abstract class joins {@link SyslogMessageConsumer} and {@link SyslogMessageProducer}
+ * interfaces.
  *
  * @param <T> the {@code type} this handler produces
  */
