@@ -12,10 +12,10 @@ public class Simple {
   /**
    * Parse a RFC 5424 {@code String} to a {@code Map<String, Object}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
-   * No Deviations<\p>
+   * No Deviations
    *
    * @param line the line of 5424 Syslog to parse
    * @return a {@code Map<String, Object}
@@ -32,10 +32,10 @@ public class Simple {
    * Parse a RFC 5424 {@code String} to a {@code Map<String, Object} and provides that {@code T}
    * to the provided {@code Consumer}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
-   * No Deviations<\p>
+   * No Deviations
    *
    * @param line     the line of 5424 Syslog to parser
    * @param consumer the {@code Consumer}
@@ -53,10 +53,10 @@ public class Simple {
    * Reads each line RFC 5424 from the {@code Reader} and parses it to
    * a {@code List} of {@code Map<String, Object>}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
-   * No Deviations**</p>
+   * No Deviations**
    *
    * @param reader {@code Reader} used.  It is not closed in this method.
    * @return {@code List} of {@code Map<String, Object>}
@@ -74,10 +74,10 @@ public class Simple {
    * Reads each line of RFC 5424 from the {@code Reader} and parses it
    * to {@code Map<String, Object>}, which is passed to the provided {@code Consumer}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
-   * No Deviations**</p>
+   * No Deviations**
    *
    * @param reader   {@code Reader} used.  It is not closed in this method.
    * @param consumer the {@code Consumer}
@@ -95,10 +95,10 @@ public class Simple {
   /**
    * Parse a RFC 5424 {@code String} to a {@code Map<String, Object>}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
-   * No Deviations<\p>
+   * No Deviations
    *
    * @param line the line of 5424 Syslog to parse
    * @return a {@code Map<String, Object>}
@@ -115,10 +115,10 @@ public class Simple {
    * Parse a RFC 5424 {@code String} to a {@code Map<String, String} and provides that {@code T}
    * to the provided {@code Consumer}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
-   * No Deviations<\p>
+   * No Deviations
    *
    * @param line     the line of 5424 Syslog to parser
    * @param consumer the {@code Consumer}
@@ -135,10 +135,10 @@ public class Simple {
    * Reads each line of RFC 5424 from the {@code Reader} and parses it
    * to a {@code List} of {@code Map<String, String>}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
-   * No Deviations*<\p>
+   * No Deviations*
    *
    * @param reader {@code Reader} used.  It is not closed in this method.
    * @return {@code List} of {@code Map<String, String>}
@@ -157,10 +157,10 @@ public class Simple {
    * to {@code Map<String, String>}, which is passed to the
    * provided {@code Consumer}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
-   * No Deviations<\p>
+   * No Deviations
    *
    * @param reader   {@code Reader} used.  It is not closed in this method.
    * @param consumer the {@code Consumer}
@@ -178,9 +178,9 @@ public class Simple {
   /**
    * Parse a RFC 3164 {@code String} to a {@code Map<String, String}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
-   * No Deviations<\p>
+   * No Deviations
    *
    * @param line the line of Syslog to parse
    * @return a {@code T}
@@ -198,9 +198,9 @@ public class Simple {
    * Parse a RFC 3164 {@code String} to a {@code Map<String, String} and provides that {@code T}
    * to the provided {@code Consumer}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
-   * No Deviations</p>
+   * No Deviations
    *
    * @param line     the line of 3164 Syslog to parser
    * @param consumer the {@code Consumer}
@@ -218,9 +218,9 @@ public class Simple {
    * Reads each line of RFC 3164 from the {@code Reader} and parses it
    * to a {@code List} of {@code Map<String, String>}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
-   * No Deviations*<\p>
+   * No Deviations*
    *
    * @param reader {@code Reader} used.  It is not closed in this method.
    * @return {@code List} of {@code Map<String, String>}
@@ -240,9 +240,9 @@ public class Simple {
    * to {@code Map<String, String>}, which is passed to the
    * provided {@code Consumer}.
    *
-   * <p>Uses:
+   * Uses:
    * {@code DefaultKeyProvider}
-   * No Deviations<\p>
+   * No Deviations
    *
    * @param reader   {@code Reader} used.  It is not closed in this method.
    * @param consumer the {@code Consumer}

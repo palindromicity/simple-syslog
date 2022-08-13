@@ -6,10 +6,7 @@ import org.jspecify.nullness.NullMarked;
 
 /**
  * Default implementation of {@link KeyProvider}.
- *
- * <p>
  * This implementation uses the {@link SyslogFieldKeys} for values.
- * </p>
  */
 @NullMarked
 public class DefaultKeyProvider implements KeyProvider {

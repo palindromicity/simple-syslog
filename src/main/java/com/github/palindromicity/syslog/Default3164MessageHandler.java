@@ -30,7 +30,7 @@ import org.jspecify.nullness.Nullable;
  * This implementation of {@link AbstractSyslogMessageHandler} handles
  * production of RFC 3164 Syslog Messages as a Map of String keys and String values.
  *
- * <p>If no {@link KeyProvider} is provided, the {@link DefaultKeyProvider} is used key names.</p>
+ * If no {@link KeyProvider} is provided, the {@link DefaultKeyProvider} is used key names.
  */
 @NullMarked
 public class Default3164MessageHandler

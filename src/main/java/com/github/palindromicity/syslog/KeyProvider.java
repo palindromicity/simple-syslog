@@ -119,9 +119,9 @@ public interface KeyProvider {
    * Provides a {@code String.format} {@code String} for producing key name for the
    * STRUCTURED_DATA SD-ID @see <a href="https://tools.ietf.org/html/rfc5424#section-6.3.2">Section 6.3.2</a>.
    *
-   * <p>The format {@code String} supports one parameter {@code %s} that will be passed the SD-ID
+   * The format {@code String} supports one parameter {@code %s} that will be passed the SD-ID
    * value.
-   * The format must begin with the value returned from {@link KeyProvider#getStructuredBase()}</p>
+   * The format must begin with the value returned from {@link KeyProvider#getStructuredBase()}
    * For example:
    * <pre>
    *   {@code syslog.structuredData.%s}
@@ -135,9 +135,9 @@ public interface KeyProvider {
    * Provides a {@code String.format} {@code String} for producing key name for the
    * STRUCTURED_DATA SD-PARAM @see <a href="https://tools.ietf.org/html/rfc5424#section-6.3.3">Section 6.3.3</a>.
    *
-   * <p>The format {@code String} supports two parameters {@code %s} that will be passed the
+   * The format {@code String} supports two parameters {@code %s} that will be passed the
    * SD-ID value and the SD-PARAM PARAM-NAME.
-   * The format must begin with the value returned from {@link KeyProvider#getStructuredBase()}</p>
+   * The format must begin with the value returned from {@link KeyProvider#getStructuredBase()}
    * For example:
    * <pre>
    *  {@code syslog.structuredData.%s.%s}

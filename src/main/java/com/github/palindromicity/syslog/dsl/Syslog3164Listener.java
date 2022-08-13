@@ -23,10 +23,8 @@ import com.github.palindromicity.syslog.dsl.generated.Rfc3164Parser;
 
 /**
  * Simple implementation of {@link Rfc3164BaseListener}.
- * <p>
  * The {@code Syslog5424Listener} uses the provided {@link KeyProvider} when inserting items into
  * the map.
- * </p>
  */
 public class Syslog3164Listener extends Rfc3164BaseListener {
 
