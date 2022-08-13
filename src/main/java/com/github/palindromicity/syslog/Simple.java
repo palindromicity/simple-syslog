@@ -11,7 +11,6 @@ import org.jspecify.nullness.Nullable;
 public class Simple {
   /**
    * Parse a RFC 5424 {@code String} to a {@code Map<String, Object}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
@@ -31,7 +30,6 @@ public class Simple {
   /**
    * Parse a RFC 5424 {@code String} to a {@code Map<String, Object} and provides that {@code T}
    * to the provided {@code Consumer}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
@@ -52,7 +50,6 @@ public class Simple {
   /**
    * Reads each line RFC 5424 from the {@code Reader} and parses it to
    * a {@code List} of {@code Map<String, Object>}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
@@ -73,7 +70,6 @@ public class Simple {
   /**
    * Reads each line of RFC 5424 from the {@code Reader} and parses it
    * to {@code Map<String, Object>}, which is passed to the provided {@code Consumer}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
@@ -94,7 +90,6 @@ public class Simple {
 
   /**
    * Parse a RFC 5424 {@code String} to a {@code Map<String, Object>}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
@@ -114,7 +109,6 @@ public class Simple {
   /**
    * Parse a RFC 5424 {@code String} to a {@code Map<String, String} and provides that {@code T}
    * to the provided {@code Consumer}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
@@ -134,7 +128,6 @@ public class Simple {
   /**
    * Reads each line of RFC 5424 from the {@code Reader} and parses it
    * to a {@code List} of {@code Map<String, String>}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
@@ -156,7 +149,6 @@ public class Simple {
    * Reads each line of RFC 5424 from the {@code Reader} and parses it
    * to {@code Map<String, String>}, which is passed to the
    * provided {@code Consumer}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * {@code NilPolicy.OMIT}
@@ -177,7 +169,6 @@ public class Simple {
 
   /**
    * Parse a RFC 3164 {@code String} to a {@code Map<String, String}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * No Deviations
@@ -197,7 +188,6 @@ public class Simple {
   /**
    * Parse a RFC 3164 {@code String} to a {@code Map<String, String} and provides that {@code T}
    * to the provided {@code Consumer}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * No Deviations
@@ -217,7 +207,6 @@ public class Simple {
   /**
    * Reads each line of RFC 3164 from the {@code Reader} and parses it
    * to a {@code List} of {@code Map<String, String>}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * No Deviations*
@@ -239,7 +228,6 @@ public class Simple {
    * Reads each line from the {@code Reader} and parses it
    * to {@code Map<String, String>}, which is passed to the
    * provided {@code Consumer}.
-   *
    * Uses:
    * {@code DefaultKeyProvider}
    * No Deviations
