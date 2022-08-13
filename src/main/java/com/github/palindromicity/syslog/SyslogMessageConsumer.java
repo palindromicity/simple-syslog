@@ -23,7 +23,6 @@ import org.jspecify.nullness.NullMarked;
 
 /**
  * SyslogMessageConsumer Interface.
- *
  * SyslogMessageConsumer instances are called with data
  * as it is parsed.
  */
