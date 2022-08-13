@@ -286,7 +286,7 @@ parser implementations as well as the `Syslog3164Listener` and `Syslog5424Listen
 <dependency>
   <groupId>com.github.palindromicity</groupId>
   <artifactId>simple-syslog</artifactId>
-  <version>0.0.6</version>
+  <version>1.0.0</version>
   <type>pom</type>
 </dependency>
 ```
