@@ -1,0 +1,3 @@
+[submodule "src/main/antlr4/com/github/palindromicity/syslog/dsl/generated"]
+	path = src/main/antlr4/com/github/palindromicity/syslog/dsl/generated
+	url = https://github.com/palindromicity/simple-syslog-grammars.git
