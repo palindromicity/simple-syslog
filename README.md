@@ -263,6 +263,10 @@ minimally be the Antlr classes alone.
 For examples, see the implementations of `Rfc3164SyslogParser` and `Rfc5424SyslogParser` for examples of
 parser implementations as well as the `Syslog3164Listener` and `Syslog5424Listener` implementations.
 
+### Building
+This project uses [simple-syslog-grammars]( https://github.com/palindromicity/simple-syslog-grammars)
+You will want to use `git clone --recursive` and ensure the src/main/antlr4/com/github/palindromicity/syslog/dsl/generated directory is created.
+
 ### Questions
 
 - __*Why not just use [java-grok](https://github.com/thekrakken/java-grok)?*__
