@@ -1,4 +1,4 @@
-// Generated from com/github/palindromicity/syslog/dsl/generated/Rfc3164.g4 by ANTLR 4.7.2
+// Generated from com/github/palindromicity/syslog/dsl/generated/Rfc3164.g4 by ANTLR 4.13.2
 package com.github.palindromicity.syslog.dsl.generated;
 
 //CHECKSTYLE:OFF

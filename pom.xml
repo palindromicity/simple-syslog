@@ -23,7 +23,7 @@
   </developers>
   <scm>
     <connection>scm:git:https://github.com/palindromicity/simple-syslog.git</connection>
-    <developerConnection>scm:git:git@github.com:palindromicity/simple-syslog.git</developerConnection>
+    <developerConnection>scm:git:https://github.com/palindromicity/simple-syslog.git</developerConnection>
     <url>https://github.com/palindromicity/simple-syslog</url>
     <tag>simple-syslog-1.0.0</tag>
   </scm>
@@ -39,7 +39,7 @@
   <properties>
     <maven.min-version>3.5.2</maven.min-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <global_antlr_version>4.7.2</global_antlr_version>
+    <global_antlr_version>4.13.2</global_antlr_version>
     <global_jspecify_version>0.2.0</global_jspecify_version>
   </properties>
   <distributionManagement>
