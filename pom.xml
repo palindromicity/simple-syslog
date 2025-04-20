@@ -3,7 +3,7 @@
 
   <groupId>com.github.palindromicity</groupId>
   <artifactId>simple-syslog</artifactId>
-  <version>2.0.1</version>
+  <version>2.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>simple-syslog</name>
@@ -25,7 +25,7 @@
     <connection>scm:git:https://github.com/palindromicity/simple-syslog.git</connection>
     <developerConnection>scm:git:https://github.com/palindromicity/simple-syslog.git</developerConnection>
     <url>https://github.com/palindromicity/simple-syslog</url>
-    <tag>simple-syslog-2.0.1</tag>
+    <tag>simple-syslog-1.0.0</tag>
   </scm>
   <prerequisites>
     <maven>${maven.min-version}</maven>
