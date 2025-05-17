@@ -1,0 +1,1 @@
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿<?xml version="1.0" encoding="UTF-8"?><AuditMessage><EventIdentification EventDateTime="2025-05-15T14:11:18.377+00:00"  EventOutcomeIndicator="0"  EventActionCode="E"/></AuditMessage>
