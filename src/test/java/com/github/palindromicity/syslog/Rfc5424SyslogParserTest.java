@@ -16,6 +16,9 @@
 
 package com.github.palindromicity.syslog;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -454,9 +457,39 @@ public class Rfc5424SyslogParserTest extends AbstractRfc5425SyslogParserTest {
 
   @Test
   public void testParseLinesMissingStructure() throws Exception {
-    SyslogParser parser = new SyslogParserBuilder().forSpecification(SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN).withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
+    SyslogParser<Map<String, Object>> parser = new SyslogParserBuilder<Map<String,Object>>().forSpecification(SyslogSpecification.HEROKU_HTTPS_LOG_DRAIN).withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
     List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_missing_structure.txt",
       parser);
     Assert.assertEquals(1, mapList.size());
+  }
+
+  @Test
+  public void testParseLineAtna() throws Exception {
+    final SyslogParser<Map<String,Object>> parser = new SyslogParserBuilder<Map<String,Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
+    final List<Map<String, Object>> mapList = handleFile("src/test/resources/logs/5424/log_atna.txt", parser);
+    Assert.assertEquals(1, mapList.size());
+    final Map<String, Object> map = mapList.get(0);
+
+    final String message = (String) map.get(SyslogFieldKeys.MESSAGE.getField());
+    Assert.assertNotNull(message);
+    // Multiple whitespaces should be kept
+    Assert.assertTrue(message.contains("  "));
+    Assert.assertFalse(message.contains("=\"0\"Event"));
+  }
+
+  @Test
+  public void testParseLinesWithInvalidWhitespaces() throws Exception {
+    final SyslogParser<Map<String,Object>> parser = new SyslogParserBuilder<Map<String,Object>>().withSyslogBuilder(new MapOfMaps5424MessageHandler()).build();
+    final Path path = Paths.get("src/test/resources/logs/5424/log_invalid_whitespaces.txt");
+    final List<String> lines = Files.readAllLines(path);
+
+    for (final String line : lines) {
+      try {
+        handleLine(line, parser);
+        Assert.fail("The parsing of the invalid line should have failed: " + line);
+      } catch (final Exception e) {
+        Assert.assertTrue(e instanceof ParseException);
+      }
+    }
   }
 }

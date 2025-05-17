@@ -1,0 +1,18 @@
+<8 5>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 202 5-05-17T1  0:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z clie nt.localhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegratio nTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 4 2 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+RF C-3881 - ﻿Hello
+<8  5>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 202  5-05-17T1  0:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z clie  nt.localhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegratio  nTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 4  2 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+RF  C-3881 - ﻿Hello
+<8		5>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025		-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.loca		lhost IkitIntegrationTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegrat		ionTestApp 42 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 4		2 IHE+RFC-3881 - ﻿Hello
+<85>1 2025-05-17T10:54:32Z client.localhost IkitIntegrationTestApp 42 IHE+		RFC-3881 - ﻿Hello
