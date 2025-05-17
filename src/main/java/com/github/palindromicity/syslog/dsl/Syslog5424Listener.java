@@ -54,12 +54,15 @@ public class Syslog5424Listener extends Rfc5424BaseListener {
   public void exitHeaderPriorityValue(Rfc5424Parser.HeaderPriorityValueContext ctx) {
     String priority = ctx.getText();
     syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_PRI, priority);
-
-    int pri = Integer.parseInt(priority);
-    int sev = pri % 8;
-    int facility = pri / 8;
-    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_PRI_SEVERITY, String.valueOf(sev));
-    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_PRI_FACILITY, String.valueOf(facility));
+    try {
+      int pri = Integer.parseInt(priority);
+      int sev = pri % 8;
+      int facility = pri / 8;
+      syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_PRI_SEVERITY, String.valueOf(sev));
+      syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_PRI_FACILITY, String.valueOf(facility));
+    } catch (NumberFormatException e) {
+      throw new ParseException("Invalid priority: " + priority, e);
+    }
   }
 
   @Override
@@ -109,8 +112,13 @@ public class Syslog5424Listener extends Rfc5424BaseListener {
 
   @Override
   public void exitHeaderTimeStamp(Rfc5424Parser.HeaderTimeStampContext ctx) {
-    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_TIMESTAMP,
-        ctx.full_date().getText() + "T" + ctx.full_time().getText());
+    String txt = null;
+    try {
+      txt = ctx.full_date().getText() + "T" + ctx.full_time().getText();
+    } catch (NullPointerException e) {
+      throw new ParseException("Invalid TimeStamp", e);
+    }
+    syslogBuilder.consumeValue(SyslogFieldKeys.HEADER_TIMESTAMP, txt);
   }
 
   @Override
